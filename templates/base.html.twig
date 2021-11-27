@@ -50,12 +50,21 @@
 						<button class="btn btn-primary rounded-circle border-2 me-5" type="submit"><i class="fas fa-search"></i></button>
 					</form>
 					<ul class="navbar-nav">
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						<li>
+							<p> Hi {{ app.user.username }}! <p>
+						</li>
 						<li class="nav-item">
-							<button class="btn btn-primary">Login</a>
+							<button class="btn btn-primary" href="{{ path('app_logout') }}">Logout</a>
+						</li>
+						{% else %}
+						<li class="nav-item">
+							<button class="btn btn-primary" href="/login">Login</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link register-link active" aria-current="page" href="/register">Register</a>
 						</li>
+						{% endif %}
 					</ul>
 				</div>
 			</div>
