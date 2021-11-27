@@ -76,10 +76,7 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'application/jpg',
-                            'application/jpeg',
-                        ],
+                        
                         'mimeTypesMessage' => 'Please upload a valid JPG or JPEG document',
                     ])
                 ],
