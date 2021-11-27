@@ -10,8 +10,8 @@
     letter-spacing: 0.3em;
     background-color: #FFFFFF;
     font-weight: 700;
-    color:black;
 }
-.nav-link{
-   
+.register-link{
+    text-decoration: underline;
+    color:black;
 }
