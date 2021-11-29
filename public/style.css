@@ -7,11 +7,14 @@
     
 }
 .navbar{
-    letter-spacing: 0.3em;
     background-color: #FFFFFF;
-    font-weight: 700;
+    font-weight: 900;
 }
 .register-link{
     text-decoration: underline;
+    color:black;
+}
+.nav-item .section{
+    letter-spacing: 2px;
     color:black;
 }
