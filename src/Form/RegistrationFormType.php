@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -52,7 +53,32 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('LastName')
+            ->add('LastName', TextType::class, [
+               
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a First Name',
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Your Last Name should be at least {{ limit }} characters',
+                        'max' => 255,
+                    ]),
+                ],
+            ])
+            ->add('roles', ChoiceType::class, array(
+                'attr'  =>  array('class' => 'form-control',
+                'style' => 'margin:5px 0;'),
+                'choices' =>array(
+                        'Beneficiary' => 'ROLE_BENEFICIARY',
+                        'Architect' => 'ROLE_ARCHITECT',
+                        'Accountant' => 'ROLE_ACCOUNTANT',
+                        'Worker' => 'ROLE_WORKER',
+                ),
+                'multiple' => true,
+                'required' => true,
+                )
+            )
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -75,15 +101,14 @@ class RegistrationFormType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '10240k',
                         
                         'mimeTypesMessage' => 'Please upload a valid JPG or JPEG document',
                     ])
                 ],
-            ])
-            
-        ;
-    }
+            ]);
+
+}
 
     public function configureOptions(OptionsResolver $resolver): void
     {

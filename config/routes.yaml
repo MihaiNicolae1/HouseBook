@@ -1,0 +1,6 @@
+index:
+    path:   /
+    controller: App\Controller\HomeController::index
+user: 
+    path: /user
+    controller: App\Controller\UserController::index
