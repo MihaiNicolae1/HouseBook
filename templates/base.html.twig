@@ -25,14 +25,14 @@
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item">
-							<a class="nav-link section" aria-current="page" href="/">Home</a>
+						<li class="nav-item active">
+							<a class="nav-link section active" aria-current="page" href="/">Home</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link section" href="#">Link</a>
+						<li class="nav-item active">
+							<a class="nav-link section active" href="#">Link</a>
 						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle section" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<li class="nav-item dropdown active">
+							<a class="nav-link dropdown-toggle section active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 								Dropdown
 							</a>
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -51,16 +51,17 @@
 					</form>
 					<ul class="navbar-nav">
 						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-						<li class="nav-item nav-link">
-							Hi {{ app.user.firstName }} {{ app.user.lastName }}!</li>
-						<li class="nav-item">
-							<a class="btn btn-primary" href="/logout">Logout</a>
+						<li class="nav-item active">
+							<a class="btn btn-primary m-2" href="/user">Profile</a>
+						</li>
+						<li class="nav-item active">
+							<a class="btn btn-secondary m-2" href="/logout">Logout</a>
 						</li>
 						{% else %}
-						<li class="nav-item">
+						<li class="nav-item active">
 							<a class="btn btn-primary" href="/login">Login</a>
 						</li>
-						<li class="nav-item">
+						<li class="nav-item ">
 							<a class="nav-link register-link active" aria-current="page" href="/register">Register</a>
 						</li>
 						{% endif %}

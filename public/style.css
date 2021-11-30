@@ -18,3 +18,12 @@
     letter-spacing: 2px;
     color:black;
 }
+.img-fluid {
+    width: 15rem;
+    height: 15rem;
+    border-radius: 50%;
+    margin: 20px;
+
+    object-fit: cover;
+    object-position: center right;
+}
