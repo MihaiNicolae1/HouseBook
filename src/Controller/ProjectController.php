@@ -31,7 +31,7 @@ class ProjectController extends AbstractController
         $form->handleRequest($request);
         
         $user = $this->get('security.token_storage')->getToken()->getUser();//getting the current user
-        $project->setUser($user); // setting the current user to the prokect
+        $project->setUser($user); // setting the current user to the project
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($project);
