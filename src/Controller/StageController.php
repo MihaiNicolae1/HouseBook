@@ -6,17 +6,19 @@ use App\Entity\Project;
 use App\Entity\Stage;
 use App\Form\StageType;
 use App\Repository\StageRepository;
-use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpParser\Node\Name;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
+$i = 1;
 #[Route('/stage')]
 class StageController extends AbstractController
 {
+    
     #[Route('/', name: 'stage_index', methods: ['GET'])]
     public function index(StageRepository $stageRepository): Response
     {
@@ -26,14 +28,27 @@ class StageController extends AbstractController
     }
 
     #[Route('/new', name: 'stage_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager,ProjectRepository $projectRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $i = 1;
+        $id = $request->get('id');
+        $project = $entityManager->find(Project::class, $id);
+       
         $stage = new Stage();
+
+        
         $form = $this->createForm(StageType::class, $stage);
         $form->handleRequest($request);
-        // should modify something here
 
+        $stage->setProject($project);
+        
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            //setting a unique slug to stage
+            $slug = preg_replace('/[^a-z0-9]+/i','-',trim(strtolower($stage->getName()))).'-'.uniqid();
+            $stage->setSlug($slug);
+            
+
             $entityManager->persist($stage);
             $entityManager->flush();
 
@@ -46,7 +61,7 @@ class StageController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'stage_show', methods: ['GET'])]
+    #[Route('/{slug}', name: 'stage_show', methods: ['GET'])]
     public function show(Stage $stage): Response
     {
         return $this->render('stage/show.html.twig', [

@@ -19,8 +19,8 @@
                 <td>{{ stage.id }}</td>
                 <td>{{ stage.Name }}</td>
                 <td>
-                    <a href="{{ path('stage_show', {'id': stage.id}) }}">show</a>
-                    <a href="{{ path('stage_edit', {'id': stage.id}) }}">edit</a>
+                    <a href="{{ path('stage_show', {'slug': stage.slug}) }}">show</a>
+                    <a href="{{ path('stage_edit', {'id': stage.slug}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -30,6 +30,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('stage_new') }}">Create new</a>
 {% endblock %}

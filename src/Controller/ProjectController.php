@@ -7,6 +7,7 @@ use App\Entity\Stage;
 use App\Form\ProjectType;
 use App\Form\StageType;
 use App\Repository\ProjectRepository;
+use App\Repository\StageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,8 +50,10 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/{id}', name: 'project_show', methods: ['GET'])]
-    public function show(Project $project): Response
+    public function show(Project $project, StageRepository $stageRepository): Response
     {
+        
+        
         return $this->render('project/show.html.twig', [
             'project' => $project,
         ]);

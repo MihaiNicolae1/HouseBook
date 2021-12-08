@@ -35,6 +35,9 @@ class Project
      */
     private $stage;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     public function __construct()
     {
         $this->stage = new ArrayCollection();

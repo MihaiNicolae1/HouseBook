@@ -15,6 +15,29 @@
                 <th>Name</th>
                 <td>{{ project.name }}</td>
             </tr>
+            <tr>
+                <th>Numer of Stages</th>
+                <td>{{project.stage|length}}</td>
+            </tr>
+        </tbody>
+    </table>
+      <table class="table">
+        <tbody>
+            {% for stage in project.stage %}
+            <tr>
+                <th>Id</th>
+                <td>{{ stage.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ stage.name }}</td>
+            </tr>
+            <tr>
+                <th>Action</th>
+                <td><a href="{{ path('stage_show', {'id': stage.id}) }}">Show Stage</a></td>
+                
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
 
