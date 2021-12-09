@@ -27,7 +27,7 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/new', name: 'project_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, UserInterface $user): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserInterface $user,ProjectRepository $projectRepository): Response
     {
         $project = new Project();
         $form = $this->createForm(ProjectType::class, $project);
@@ -37,6 +37,23 @@ class ProjectController extends AbstractController
         $project->setUser($user); // setting the current user to the project
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+        
+
+            //setting a unique slug to stage
+            $i=1;
+            
+            $slug = preg_replace('/[^a-z0-9]+/i','-',trim(strtolower($project->getName())));
+            $baseSlug  = $slug;// retaining the value of simple slugg
+           
+            //searching if there is a slug in database like this and while it is adding 1 to last character
+            while($projectRepository->findOneBy(['slug' => $slug])){ 
+                $slug = $baseSlug ."-".$i++;       
+            } 
+
+
+            $project->setSlug($slug);
+            
             $entityManager->persist($project);
             $entityManager->flush();
 
@@ -49,7 +66,7 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'project_show', methods: ['GET'])]
+    #[Route('/{slug}', name: 'project_show', methods: ['GET'])]
     public function show(Project $project, StageRepository $stageRepository): Response
     {
         
@@ -59,7 +76,7 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'project_edit', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/edit', name: 'project_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Project $project, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ProjectType::class, $project);
@@ -77,7 +94,7 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'project_delete', methods: ['POST'])]
+    #[Route('/{slug}', name: 'project_delete', methods: ['POST'])]
     public function delete(Request $request, Project $project, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$project->getId(), $request->request->get('_token'))) {

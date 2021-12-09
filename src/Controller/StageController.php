@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Entity\Stage;
 use App\Form\StageType;
+use App\Repository\ProjectRepository;
 use App\Repository\StageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,11 +29,11 @@ class StageController extends AbstractController
     }
 
     #[Route('/new', name: 'stage_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,StageRepository $stageRepository, ProjectRepository $projectRepository): Response
     {
-        $i = 1;
-        $id = $request->get('id');
-        $project = $entityManager->find(Project::class, $id);
+        
+        $slug = $request->get('slug');
+        $project = $projectRepository->findOneBy(['slug' => $slug]);
        
         $stage = new Stage();
 
@@ -40,14 +41,23 @@ class StageController extends AbstractController
         $form = $this->createForm(StageType::class, $stage);
         $form->handleRequest($request);
 
-        $stage->setProject($project);
+        
         
         if ($form->isSubmitted() && $form->isValid()) {
             
             //setting a unique slug to stage
-            $slug = preg_replace('/[^a-z0-9]+/i','-',trim(strtolower($stage->getName()))).'-'.uniqid();
-            $stage->setSlug($slug);
+            $i=1;
             
+            $slug = preg_replace('/[^a-z0-9]+/i','-',trim(strtolower($stage->getName())));
+            $baseSlug  = $slug;// retaining the value of simple slugg
+           
+            //searching if there is a slug in database like this and while it is adding 1 to last character
+            while($stageRepository->findOneBy(['slug' => $slug])){ 
+                $slug = $baseSlug ."-".$i++;       
+            } 
+
+            $stage->setProject($project);
+            $stage->setSlug($slug);
 
             $entityManager->persist($stage);
             $entityManager->flush();
@@ -69,7 +79,7 @@ class StageController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'stage_edit', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/edit', name: 'stage_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Stage $stage, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(StageType::class, $stage);
@@ -87,7 +97,7 @@ class StageController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'stage_delete', methods: ['POST'])]
+    #[Route('/{slug}', name: 'stage_delete', methods: ['POST'])]
     public function delete(Request $request, Stage $stage, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$stage->getId(), $request->request->get('_token'))) {

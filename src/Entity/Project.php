@@ -36,6 +36,11 @@ class Project
     private $stage;
 
     /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $slug;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     public function __construct()
@@ -98,6 +103,18 @@ class Project
                 $stage->setProject(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
