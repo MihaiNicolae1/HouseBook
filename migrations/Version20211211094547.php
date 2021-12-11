@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20211209140004 extends AbstractMigration
+final class Version20211211094547 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,16 +20,13 @@ final class Version20211209140004 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE project ADD slug VARCHAR(255) NOT NULL');
+        $this->addSql('CREATE TABLE steps (id INT AUTO_INCREMENT NOT NULL, stage_id INT NOT NULL, name VARCHAR(255) NOT NULL, slug VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, INDEX IDX_34220A722298D193 (stage_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE steps ADD CONSTRAINT FK_34220A722298D193 FOREIGN KEY (stage_id) REFERENCES stage (id)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE project DROP slug');
-    }
-    public function isTransactional(): bool
-    {
-        return false;
+        $this->addSql('DROP TABLE steps');
     }
 }

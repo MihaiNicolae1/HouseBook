@@ -77,12 +77,25 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/{slug}/edit', name: 'project_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Project $project, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Project $project, EntityManagerInterface $entityManager, ProjectRepository $projectRepository): Response
     {
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //setting a unique slug to stage
+            $i=1;
+            
+            $slug = preg_replace('/[^a-z0-9]+/i','-',trim(strtolower($project->getName())));
+            $baseSlug  = $slug;// retaining the value of simple slugg
+           
+            //searching if there is a slug in database like this and while it is adding 1 to last character
+            while($projectRepository->findOneBy(['slug' => $slug])){ 
+                $slug = $baseSlug ."-".$i++;       
+            } 
+
+
+            $project->setSlug($slug);
             $entityManager->flush();
 
             return $this->redirectToRoute('project_index', [], Response::HTTP_SEE_OTHER);

@@ -35,7 +35,10 @@
             <tr>
                 <th>Action</th>
                 <td><a href="{{ path('stage_show', {'slug': stage.slug}) }}">Show Stage</a></td>
-                
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td> {{ stage.createdAt ? stage.createdAt|ago : 'unpublished' }}</td>
             </tr>
             {% endfor %}
         </tbody>

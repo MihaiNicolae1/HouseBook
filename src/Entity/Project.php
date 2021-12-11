@@ -40,9 +40,6 @@ class Project
      */
     private $slug;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     public function __construct()
     {
         $this->stage = new ArrayCollection();

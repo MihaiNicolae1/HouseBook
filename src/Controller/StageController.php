@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Project;
 use App\Entity\Stage;
+use DateTime;
 use App\Form\StageType;
 use App\Repository\ProjectRepository;
 use App\Repository\StageRepository;
@@ -12,8 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 $i = 1;
 #[Route('/stage')]
@@ -58,6 +57,8 @@ class StageController extends AbstractController
 
             $stage->setProject($project);
             $stage->setSlug($slug);
+            $date = new DateTime();
+            $stage->setCreatedAt($date);
 
             $entityManager->persist($stage);
             $entityManager->flush();
@@ -80,12 +81,23 @@ class StageController extends AbstractController
     }
 
     #[Route('/{slug}/edit', name: 'stage_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Stage $stage, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Stage $stage, EntityManagerInterface $entityManager,StageRepository $stageRepository): Response
     {
         $form = $this->createForm(StageType::class, $stage);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+             //setting a unique slug to stage
+             $i=1;
+            
+             $slug = preg_replace('/[^a-z0-9]+/i','-',trim(strtolower($stage->getName())));
+             $baseSlug  = $slug;// retaining the value of simple slugg
+            
+             //searching if there is a slug in database like this and while it is adding 1 to last character
+             while($stageRepository->findOneBy(['slug' => $slug])){ 
+                 $slug = $baseSlug ."-".$i++;       
+             } 
+            $stage->setSlug($slug);
             $entityManager->flush();
 
             return $this->redirectToRoute('stage_index', [], Response::HTTP_SEE_OTHER);

@@ -26,5 +26,7 @@
 
     <a href="{{ path('stage_edit', {'slug': stage.slug}) }}">edit</a>
 
+    <a href="{{ path('steps_new', {'slug': stage.slug}) }}">New step</a>
+
     {{ include('stage/_delete_form.html.twig') }}
 {% endblock %}
