@@ -4,37 +4,23 @@
 
 {% block body %}
     <div class="container-fluid"><h1>Projects</h1></div>
-  
-    <table class="table table-borderless">
-        <thead>
-            <tr>
-                <th>Project Name</th>
-                <th>Beneficiary</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for project in app.user.project %}
-        
-     
-            <tr>
-                <td class="align-middle"><a href="{{ path('project_show', {'slug': project.slug}) }}">{{ project.name }}</a<</td>
-                <td class="align-middle"><img class="img-fluid-2 img-thumbnail" src={{asset ('/uploads/profile_pictures/' ~ project.user.profilePicture) }}></img>{{ project.user.firstName }} {{ project.user.lastName }}</td>
-                                  
-                </td>
-                <td class="align-middle">
-                    <a class = "btn btn-warning" href="{{ path('project_show', {'slug': project.slug}) }}">Show</a>
-                    <a class = "btn btn-danger" href="{{ path('project_edit', {'slug': project.slug}) }}">Edit</a>
-                    <a class = "btn btn-success" href="{{ path('stage_new', {'slug': project.slug}) }}">Add stage</a>
-                </td>
-            </tr>
-        {% else %}
+    <div class="container">
+    
+    {% for project in app.user.project %}
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top img-fluid-2 img-thumbnail" src={{asset ('/uploads/profile_pictures/' ~ project.user.profilePicture) }}></img>
+        <div class="card-body">
+            <h5 class="card-title">{{ project.name }}</h5>
+            <p class="card-text">{{project.user.lastName}}</p>
+            <a href="{{ path('project_show', {'slug': project.slug}) }}" class="btn btn-primary stretched-link">Open project</a>
+            <a class = "btn btn-danger" href="{{ path('project_edit', {'slug': project.slug}) }}">Edit</a>
+        </div>
+    </div>
+    {% else %}
             <tr>
                 <td colspan="3">No projects to show!Please create one!</td>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+    {% endfor %}
+   
     <a class = "btn btn-primary" href="{{ path('project_new') }}">Create new</a>
 {% endblock %}
