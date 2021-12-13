@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
 
 #[Route('/project')]
 class ProjectController extends AbstractController
@@ -27,7 +30,7 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/new', name: 'project_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, UserInterface $user,ProjectRepository $projectRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserInterface $user,ProjectRepository $projectRepository, SluggerInterface $slugger): Response
     {
         $project = new Project();
         $form = $this->createForm(ProjectType::class, $project);
@@ -50,6 +53,24 @@ class ProjectController extends AbstractController
             while($projectRepository->findOneBy(['slug' => $slug])){ 
                 $slug = $baseSlug ."-".$i++;       
             } 
+            
+            $profilePicture = $form->get('ProfilePicture')->getData();//getting the profile picture
+            //getting the filename
+            $originalPicture = pathinfo($profilePicture->getClientOriginalName(),PATHINFO_FILENAME);
+            $safePicture = $slugger->slug($originalPicture);
+            $newNamePicture = $safePicture.'-'.uniqid().'.'.$profilePicture->guessExtension();
+            //Moving the picture to the directory where profile pictures are stored
+            try{
+                $profilePicture->move(
+                    $this->getParameter('project_profilePictures_directory'),
+                    $newNamePicture
+                );
+            }
+            catch(FileException $exception){
+                // exceptions
+                echo $exception;
+            }
+            $project->setProfilePicture($newNamePicture);
 
 
             $project->setSlug($slug);

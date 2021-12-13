@@ -5,15 +5,17 @@
 {% block body %}
     <div class="container-fluid"><h1>Projects</h1></div>
     <div class="container">
-    
+    <div class="row">
     {% for project in app.user.project %}
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top img-fluid-2 img-thumbnail" src={{asset ('/uploads/profile_pictures/' ~ project.user.profilePicture) }}></img>
-        <div class="card-body">
-            <h5 class="card-title">{{ project.name }}</h5>
-            <p class="card-text">{{project.user.lastName}}</p>
-            <a href="{{ path('project_show', {'slug': project.slug}) }}" class="btn btn-primary stretched-link">Open project</a>
-            <a class = "btn btn-danger" href="{{ path('project_edit', {'slug': project.slug}) }}">Edit</a>
+    <div class="col-md-6 col-lg-3">
+        <div class="card mt-5" style="width: 16rem;">
+            <img class="card-img-top img-tumbnail" src={{asset ('/uploads/project_profile_pictures/' ~ project.profilePicture) }}></img>
+            <div class="card-body">
+                <h5 class="card-title">{{project.name}}</h5>
+                <p class="card-text">{{ project.description|length >100 ? project.description|slice(0,100) ~ '...' : project.description }}</p>
+                <a href="{{ path('project_show', {'slug': project.slug}) }}" class="btn btn-primary">Open project</a>
+                <a class = "btn btn-secondary" href="{{ path('project_edit', {'slug': project.slug}) }}">Edit</a>
+            </div>
         </div>
     </div>
     {% else %}
@@ -21,6 +23,6 @@
                 <td colspan="3">No projects to show!Please create one!</td>
             </tr>
     {% endfor %}
-   
+    </div>
     <a class = "btn btn-primary" href="{{ path('project_new') }}">Create new</a>
 {% endblock %}
