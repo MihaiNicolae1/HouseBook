@@ -5,19 +5,24 @@
 {% block body %}
     <div class="container-fluid"><h1>Projects</h1></div>
     <div class="container">
-    <div class="row">
+    <div class="row mb-5 cstm-height-card">
     {% for project in app.user.project %}
-    <div class="col-md-6 col-lg-3">
-        <div class="card mt-5" style="width: 16rem;">
-            <img class="card-img-top img-tumbnail" src={{asset ('/uploads/project_profile_pictures/' ~ project.profilePicture) }}></img>
-            <div class="card-body">
-                <h5 class="card-title">{{project.name}}</h5>
-                <p class="card-text">{{ project.description|length >100 ? project.description|slice(0,100) ~ '...' : project.description }}</p>
-                <a href="{{ path('project_show', {'slug': project.slug}) }}" class="btn btn-primary">Open project</a>
-                <a class = "btn btn-secondary" href="{{ path('project_edit', {'slug': project.slug}) }}">Edit</a>
-            </div>
-        </div>
-    </div>
+		<div class="col-md-4">
+			<div class="card">
+				<img src={{asset ('/uploads/project_profile_pictures/' ~ project.profilePicture) }} class="card-img-top" alt="...">
+				<div class="card-body">
+					<h5 class="card-title">{{project.name}}</h5>
+					<p class="card-text">{{project.description}}</p>
+					<a href="{{ path('project_show', {'slug': project.slug}) }}" class="btn btn-sm btn-primary">Open</a>
+                    <div class="d-flex justify-content-between card-text text-muted mt-10"> 
+                            <i class="fas fa-eye small"> 1000</i>
+                            <i class="far fa-user small"> {{project.user.firstName}} {{project.user.lastName}}</i>
+                            <i class="fas fa-calendar-alt small"> Jan 20, 2018</i>
+                        
+                    </div>
+                </div>
+			</div>
+		</div>
     {% else %}
             <tr>
                 <td colspan="3">No projects to show!Please create one!</td>

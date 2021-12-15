@@ -37,3 +37,7 @@
     object-fit: cover;
     object-position: center right;
 }
+.cstm-height-card .card-img-top {
+    height: 20rem;
+    object-fit: cover;
+  }

@@ -55,24 +55,25 @@ class ProjectController extends AbstractController
             } 
             
             $profilePicture = $form->get('ProfilePicture')->getData();//getting the profile picture
-            //getting the filename
-            $originalPicture = pathinfo($profilePicture->getClientOriginalName(),PATHINFO_FILENAME);
-            $safePicture = $slugger->slug($originalPicture);
-            $newNamePicture = $safePicture.'-'.uniqid().'.'.$profilePicture->guessExtension();
-            //Moving the picture to the directory where profile pictures are stored
-            try{
-                $profilePicture->move(
-                    $this->getParameter('project_profilePictures_directory'),
-                    $newNamePicture
-                );
+            $oldProfile = $project->getProfilePicture();
+            if ($profilePicture){
+                //getting the filename
+                $originalPicture = pathinfo($profilePicture->getClientOriginalName(),PATHINFO_FILENAME);
+                $safePicture = $slugger->slug($originalPicture);
+                $newNamePicture = $safePicture.'-'.uniqid().'.'.$profilePicture->guessExtension();
+                //Moving the picture to the directory where profile pictures are stored
+                try{
+                    $profilePicture->move(
+                        $this->getParameter('project_profilePictures_directory'),
+                        $newNamePicture
+                    );
+                }
+                catch(FileException $exception){
+                    // exceptions
+                    echo $exception;
+                }
+                $project->setProfilePicture($newNamePicture);
             }
-            catch(FileException $exception){
-                // exceptions
-                echo $exception;
-            }
-            $project->setProfilePicture($newNamePicture);
-
-
             $project->setSlug($slug);
             
             $entityManager->persist($project);
