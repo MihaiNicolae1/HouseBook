@@ -6,38 +6,42 @@
     font-weight: 500;
     
 }
-.navbar{
-    background-color: #FFFFFF;
-    font-weight: 900;
+.baseTemplate{
+    background-color: #F5F5F5;
 }
-.register-link{
-    text-decoration: underline;
-    color:black;
+.navbar{
+    background-color: #F5F5F5;
+    font-weight: 900;
 }
 .nav-item .section{
     letter-spacing: 2px;
-    color:black;
+    color:#F5F5F5;
 }
 .img-fluid {
     width: 15rem;
     height: 15rem;
     border-radius: 50%;
-    margin: 20px;
-
     object-fit: cover;
-    object-position: center right;
+    object-position: center;
 }
 .img-fluid-2 {
-    width: 15rem;
-    height: 15rem;
-    margin-top: 20px;
-    margin-bottom: 20px;
-
-    margin-right: 10px;
+    width: 11rem;
+    height: 11rem;
+    border-radius: 50%;
     object-fit: cover;
-    object-position: center right;
+    object-position: center;
 }
-.cstm-height-card .card-img-top {
-    height: 20rem;
+.img-fluid-2:hover{
+    box-shadow: 10px;
+}
+.card:hover{
+    box-shadow: 0px 0px 27px 0px rgba(0,0,0,0.43);
+    transition: 0.5s;
+}
+.project-image {
+    width: 22rem;
+    height: 22rem;
+    border-radius: 5%;
     object-fit: cover;
-  }
+    object-position: center;
+}

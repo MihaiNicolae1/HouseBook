@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Project;
+use DateTime;
 use App\Entity\Stage;
 use App\Form\ProjectType;
 use App\Form\StageType;
@@ -75,6 +76,8 @@ class ProjectController extends AbstractController
                 $project->setProfilePicture($newNamePicture);
             }
             $project->setSlug($slug);
+            $date = new DateTime();
+            $project->setCreatedAt($date);
             
             $entityManager->persist($project);
             $entityManager->flush();
