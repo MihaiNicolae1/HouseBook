@@ -41,7 +41,12 @@
 .project-image {
     width: 22rem;
     height: 22rem;
-    border-radius: 5%;
     object-fit: cover;
     object-position: center;
+}
+.img-thumbnail-2{
+    width:3rem;
+    height:3rem;
+    border-radius:50%;  
+    object-fit: cover;
 }

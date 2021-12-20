@@ -26,11 +26,8 @@
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item ">
-							<a class="nav-link section" aria-current="page" href="/">Home</a>
-						</li>
 						<li class="nav-item">
-							<a class="nav-link section active" href="/project">Projects</a>
+							<a class="nav-link section active" href="/project"><i class="fas fa-house-user"></i></a>
 						</li>
 						<li class="nav-item dropdown active">
 							<a class="nav-link dropdown-toggle section active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -53,10 +50,10 @@
 					<ul class="navbar-nav">
 						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 						<li class="nav-item active">
-							<a class="btn btn-primary m-2" href="/user">Profile</a>
+							<img class="img-fluid img-thumbnail-2" src={{asset ('/uploads/profile_pictures/' ~ app.user.profilePicture) }}></img>
 						</li>
 						<li class="nav-item active">
-							<a class="btn btn-secondary m-2" href="/logout">Logout</a>
+							<a class="nav-link section active m-2" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
 						</li>
 						{% else %}
 						<li class="nav-item active">
