@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Cost;
-use App\Entity\CursBNR;
 use App\Form\CostType;
 use App\Repository\CostRepository;
 use App\Repository\ProjectRepository;
@@ -12,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Services\CursBNR;
 
 #[Route('/cost')]
 class CostController extends AbstractController
@@ -31,17 +31,20 @@ class CostController extends AbstractController
         $slug = $request->get('slug');
         $project = $projectRepository->findOneBy(['slug' => $slug]);
         $curs = new CursBNR("https://www.bnr.ro/nbrfxrates.xml");
+        
 
         $cost = new Cost();
         $form = $this->createForm(CostType::class, $cost);
         $form->handleRequest($request);
 
+        dump($curs->getExchangeRate("HUF"));die;
         if ($form->isSubmitted() && $form->isValid()) {
 
             $currencyChoice = $form->get("currencyChoice")->getData();
 
             if($currencyChoice == "EUR"){
                 $eurValue = $form->get("value")->getData();
+
 
                 $cost->setEur($eurValue);
                 $cost->setUsd(round($eurValue/1.1),2);

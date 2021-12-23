@@ -1,6 +1,7 @@
 <?php
-
-namespace App\Entity;
+    namespace App\Services;
+    use SimpleXMLElement;
+    
     class CursBNR
     {
         /**
