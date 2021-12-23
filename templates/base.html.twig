@@ -29,41 +29,34 @@
 						<li class="nav-item">
 							<a class="nav-link section active" href="/project"><i class="fas fa-house-user"></i></a>
 						</li>
-						<li class="nav-item dropdown active">
-							<a class="nav-link dropdown-toggle section active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								Dropdown
-							</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<li>
-									<a class="dropdown-item" href="#">Action</a>
-								</li>
-								<li>
-									<a class="dropdown-item" href="#">Another action</a>
-								</li>
-							</ul>
+						<li class="nav-item">
+							<a class="nav-link section active pl-15" href="/project/new"><i class="fas fa-plus-square"></i></a>
 						</li>
 					</ul>
 					<form class="d-flex">
 						<input class="form-control rounded-pill me-2" type="search" placeholder="Search" aria-label="Search">
 						<button class="btn btn-primary rounded-circle border-2 me-5" type="submit"><i class="fas fa-search"></i></button>
 					</form>
-					<ul class="navbar-nav">
+						<ul class="navbar-nav">
 						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-						<li class="nav-item active">
-							<img class="img-fluid img-thumbnail-2" src={{asset ('/uploads/profile_pictures/' ~ app.user.profilePicture) }}></img>
+					
+						<li class="nav-item">
+							<a class="nav-link section active" href="/user">
+								<img class="img-fluid img-thumbnail-2" href="/user" src={{asset ('/uploads/profile_pictures/' ~ app.user.profilePicture) }}></img>
+							</a>
 						</li>
-						<li class="nav-item active">
-							<a class="nav-link section active m-2" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
+						<li class="nav-item align-center">
+							<a class="nnav-link section" aria-current="page" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
 						</li>
 						{% else %}
-						<li class="nav-item active">
-							<a class="btn btn-primary" href="/login">Login</a>
+						<li class="nav-item">
+							<a class="btn btn-primary " href="/login">Login</a>
 						</li>
 						<li class="nav-item ">
 							<a class="nav-link section" aria-current="page" href="/register">Register</a>
 						</li>
 						{% endif %}
-					</ul>
+						</ul>
 				</div>
 			</div>
 		</nav>

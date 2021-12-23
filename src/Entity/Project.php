@@ -55,9 +55,15 @@ class Project
      */
     private $createdAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Cost::class, mappedBy="project")
+     */
+    private $costs;
+
     public function __construct()
     {
         $this->stage = new ArrayCollection();
+        $this->costs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,6 +168,36 @@ class Project
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Cost[]
+     */
+    public function getCosts(): Collection
+    {
+        return $this->costs;
+    }
+
+    public function addCost(Cost $cost): self
+    {
+        if (!$this->costs->contains($cost)) {
+            $this->costs[] = $cost;
+            $cost->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCost(Cost $cost): self
+    {
+        if ($this->costs->removeElement($cost)) {
+            // set the owning side to null (unless already changed)
+            if ($cost->getProject() === $this) {
+                $cost->setProject(null);
+            }
+        }
 
         return $this;
     }

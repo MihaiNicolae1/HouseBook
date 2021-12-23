@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cost{% endblock %}
+
+{% block body %}
+    <h1>Cost</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ cost.id }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ cost.description }}</td>
+            </tr>
+            <tr>
+                <th>Value</th>
+                <td>{{ cost.value }}</td>
+            </tr>
+            <tr>
+                <th>Eur</th>
+                <td>{{ cost.eur }}</td>
+            </tr>
+            <tr>
+                <th>Usd</th>
+                <td>{{ cost.usd }}</td>
+            </tr>
+            <tr>
+                <th>Ron</th>
+                <td>{{ cost.ron }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('cost_index') }}">back to list</a>
+
+    <a href="{{ path('cost_edit', {'id': cost.id}) }}">edit</a>
+
+    {{ include('cost/_delete_form.html.twig') }}
+{% endblock %}
