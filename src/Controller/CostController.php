@@ -37,18 +37,31 @@ class CostController extends AbstractController
         $form = $this->createForm(CostType::class, $cost);
         $form->handleRequest($request);
 
-        dump($curs->getExchangeRate("HUF"));die;
+        
         if ($form->isSubmitted() && $form->isValid()) {
 
             $currencyChoice = $form->get("currencyChoice")->getData();
 
             if($currencyChoice == "EUR"){
+                //Getting the EUR value and setting it 
                 $eurValue = $form->get("value")->getData();
-
-
                 $cost->setEur($eurValue);
-                $cost->setUsd(round($eurValue/1.1),2);
-                $cost->setRon($eurValue*4.89);
+
+                //Getting the RON-EUR exchange rate
+                $eurExchangeRate = $curs->getExchangeRate("EUR");
+                //Calculating the equivalent in RON
+                $ronValue = $eurValue * $eurExchangeRate;
+                $ronValue = round($ronValue,2);
+                //Setting the RON value
+                $cost->setRon($ronValue);
+
+                //Getting the RON-USD exchange rate
+                $usdExchangeRate = $curs->getExchangeRate("USD");
+                //Calculating the equivalent in USD
+                $usdValue = $ronValue / $usdExchangeRate;
+                $usdValue = round($usdValue,2);
+                //Setting the USD value
+                $cost->setUsd($usdValue);
             }
 
 
