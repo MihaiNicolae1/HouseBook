@@ -33,10 +33,16 @@ class Document
     private $created_at;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="documents")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="documents")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Project::class, inversedBy="documents")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $project_id;
 
     public function getId(): ?int
     {
@@ -87,6 +93,18 @@ class Document
     public function setAuthor(?user $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getProjectId(): ?project
+    {
+        return $this->project_id;
+    }
+
+    public function setProjectId(?project $project_id): self
+    {
+        $this->project_id = $project_id;
 
         return $this;
     }

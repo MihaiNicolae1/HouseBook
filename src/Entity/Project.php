@@ -65,10 +65,16 @@ class Project
      */
     private $project_directory;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="project_id", orphanRemoval=true)
+     */
+    private $documents;
+
     public function __construct()
     {
         $this->stage = new ArrayCollection();
         $this->costs = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -215,6 +221,36 @@ class Project
     public function setProjectDirectory(?string $project_directory): self
     {
         $this->project_directory = $project_directory;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Document[]
+     */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents[] = $document;
+            $document->setProjectId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->documents->removeElement($document)) {
+            // set the owning side to null (unless already changed)
+            if ($document->getProjectId() === $this) {
+                $document->setProjectId(null);
+            }
+        }
 
         return $this;
     }
