@@ -6,11 +6,12 @@ use App\Entity\Project;
 use DateTime;
 use App\Entity\Stage;
 use App\Form\ProjectType;
-use App\Form\StageType;
+use App\Services\createSlug;
 use App\Repository\ProjectRepository;
 use App\Repository\StageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Console\Event\ConsoleEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,6 +19,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
+use function App\Services\createSlug;
 
 #[Route('/project')]
 class ProjectController extends AbstractController
@@ -28,6 +30,7 @@ class ProjectController extends AbstractController
         return $this->render('project/index.html.twig', [
             'projects' => $projectRepository->findAll(),
         ]);
+        
     }
 
     #[Route('/new', name: 'project_new', methods: ['GET', 'POST'])]
@@ -42,21 +45,21 @@ class ProjectController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-        
+            $slug = createSlug($projectRepository,$project);
+            
 
-            //setting a unique slug to stage
-            $i=1;
-            
-            $slug = preg_replace('/[^a-z0-9]+/i','-',trim(strtolower($project->getName())));
-            $baseSlug  = $slug;// retaining the value of simple slugg
-           
-            //searching if there is a slug in database like this and while it is adding 1 to last character
-            while($projectRepository->findOneBy(['slug' => $slug])){ 
-                $slug = $baseSlug ."-".$i++;       
-            } 
-            
+            //Creating unique value for project directory
+            $project_directory ='project_' . uniqid();
+            //Setting the value
+            $project->setProjectDirectory($project_directory);
+
+
+            //Getting the location and creating the new folder
+            $file_location = $this->getParameter('projects_directory') . '/' . $project_directory;
+            mkdir($file_location, 0700);
             $profilePicture = $form->get('ProfilePicture')->getData();//getting the profile picture
-            $oldProfile = $project->getProfilePicture();
+            
+
             if ($profilePicture){
                 //getting the filename
                 $originalPicture = pathinfo($profilePicture->getClientOriginalName(),PATHINFO_FILENAME);
@@ -64,10 +67,7 @@ class ProjectController extends AbstractController
                 $newNamePicture = $safePicture.'-'.uniqid().'.'.$profilePicture->guessExtension();
                 //Moving the picture to the directory where profile pictures are stored
                 try{
-                    $profilePicture->move(
-                        $this->getParameter('project_profilePictures_directory'),
-                        $newNamePicture
-                    );
+                    $profilePicture->move($file_location,$newNamePicture);
                 }
                 catch(FileException $exception){
                     // exceptions
@@ -75,6 +75,7 @@ class ProjectController extends AbstractController
                 }
                 $project->setProfilePicture($newNamePicture);
             }
+            
             $project->setSlug($slug);
             $date = new DateTime();
             $project->setCreatedAt($date);
@@ -108,7 +109,7 @@ class ProjectController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //setting a unique slug to stage
+            //setting a unique slug to project
             $i=1;
             
             $slug = preg_replace('/[^a-z0-9]+/i','-',trim(strtolower($project->getName())));

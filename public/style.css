@@ -10,14 +10,14 @@
     background-color: #F5F5F5;
 }
 .navbar{
-    background-color: #F5F5F5;
+    
     font-weight: 900;
 }
 .nav-item .section{
     letter-spacing: 2px;
     color:#F5F5F5;
 }
-.img-fluid {
+.img-fluid-3 {
     width: 15rem;
     height: 15rem;
     border-radius: 50%;
@@ -39,14 +39,18 @@
     transition: 0.5s;
 }
 .project-image {
-    width: 22rem;
-    height: 22rem;
+    width: fit-content;
     object-fit: cover;
     object-position: center;
 }
-.img-thumbnail-2{
+.img-user{
     width:3rem;
     height:3rem;
     border-radius:50%;  
     object-fit: cover;
+    border-style:groove;
+    border-color: #F5F5F5;
+}
+.project-info{
+    background-color: #FFFFFF;
 }

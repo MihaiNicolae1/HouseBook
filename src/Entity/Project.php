@@ -60,6 +60,11 @@ class Project
      */
     private $costs;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $project_directory;
+
     public function __construct()
     {
         $this->stage = new ArrayCollection();
@@ -198,6 +203,18 @@ class Project
                 $cost->setProject(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProjectDirectory(): ?string
+    {
+        return $this->project_directory;
+    }
+
+    public function setProjectDirectory(?string $project_directory): self
+    {
+        $this->project_directory = $project_directory;
 
         return $this;
     }

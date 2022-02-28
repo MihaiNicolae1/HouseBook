@@ -10,7 +10,7 @@
 		<div class="col-md-4 pb-5">
 			<div class="card">
                     <div class="d-flex justify-content-center pt-5 pb-5">
-                        <img src={{asset ('/uploads/project_profile_pictures/' ~ project.profilePicture) }} class="card-img-top img-fluid-2 img-thumbnail" alt="...">
+                        <img src={{asset ('/uploads/projects/'~ project.projectDirectory ~'/'~ project.profilePicture) }} class="card-img-top img-fluid-2 img-thumbnail" alt="...">
                     </div>
 					<div class="card-body">
 					<h5 class="card-title">{{project.name}}</h5>

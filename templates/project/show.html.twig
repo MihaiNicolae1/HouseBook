@@ -3,17 +3,48 @@
 {% block title %}HouseBook | Project{% endblock %}
 
 {% block body %}
+        
+
+    <div class="container-fluid">
     <h1>{{project.name}}</h1>
-
-    <img src={{asset ('/uploads/project_profile_pictures/' ~ project.profilePicture) }} class="project-image" alt="...">
-   
-    <a href="{{ path('project_index') }}">Back to your projects</a>
-
-    <a href="{{ path('stage_new', {'slug': project.slug}) }}">Add stage</a>
-
-    <a href="{{ path('cost_new', {'slug': project.slug}) }}">Add cost</a>
-
-    <a href="{{ path('project_edit', {'slug': project.slug}) }}">Edit</a>
+    <div class="row">
     
-    {{ include('project/_delete_form.html.twig') }}
+    <div class="col-12 col-sm-4">
+        <div class="container-fluid">
+            <img src={{asset ('/uploads/projects/'~ project.projectDirectory ~'/'~ project.profilePicture) }} class="img-fluid project-image border border-3 rounded" alt="...">
+        </div>
+        <div class="d-grid gap-2 col-6 mx-auto mt-10">
+          <a href="{{ path('project_index') }}" class="btn btn-secondary">Back to your projects</a>
+          <a href="{{ path('stage_new', {'slug': project.slug}) }}" class="btn btn-success">Add stage</a>
+          <a href="{{ path('cost_new', {'slug': project.slug}) }}" class="btn btn-primary">Add cost</a>
+          <a href="{{ path('project_edit', {'slug': project.slug}) }}" class="btn btn-secondary">Edit</a>
+        </div>
+    </div>
+    <div class="col-12 col-sm-8">
+      <div class="row project-info border border-2">
+        <p>Beneficiary: {{project.user.firstName}}</p>
+        <p>Description: {{project.Description}}</p>
+        <p>Created: {{project.createdat|date("h:i:s | d-M-Y")}} ({{project.createdat|ago}})</p>
+        <p>Number of stages: {{ project.stage|length }}</p>
+        <div class="container-fluid">
+        {% for stage in project.stage %}
+            <h5>{{stage.name}}</h5>
+              
+            
+              {% for step in stage.steps %}
+              
+                 <p> - {{step.name}} </p>
+             
+              {% endfor %}
+              
+            
+         {% endfor %}
+         </div>
+         {{ include('project/_document.html.twig') }}
+        <p></p>
+      </div>
+    </div>
+  </div>
+</div>
+    
 {% endblock %}

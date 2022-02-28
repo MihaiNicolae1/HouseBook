@@ -14,7 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-$i = 1;
+use function App\Services\createSlug;
+
 #[Route('/stage')]
 class StageController extends AbstractController
 {
@@ -44,16 +45,7 @@ class StageController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             
-            //setting a unique slug to stage
-            $i=1;
-            
-            $slug = preg_replace('/[^a-z0-9]+/i','-',trim(strtolower($stage->getName())));
-            $baseSlug  = $slug;// retaining the value of simple slugg
-           
-            //searching if there is a slug in database like this and while it is adding 1 to last character
-            while($stageRepository->findOneBy(['slug' => $slug])){ 
-                $slug = $baseSlug ."-".$i++;       
-            } 
+            $slug = createSlug($projectRepository,$stage);
 
             $stage->setProject($project);
             $stage->setSlug($slug);
@@ -87,16 +79,9 @@ class StageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-             //setting a unique slug to stage
-             $i=1;
-            
-             $slug = preg_replace('/[^a-z0-9]+/i','-',trim(strtolower($stage->getName())));
-             $baseSlug  = $slug;// retaining the value of simple slugg
-            
-             //searching if there is a slug in database like this and while it is adding 1 to last character
-             while($stageRepository->findOneBy(['slug' => $slug])){ 
-                 $slug = $baseSlug ."-".$i++;       
-             } 
+
+            $slug = createSlug($stageRepository,$stage);
+
             $stage->setSlug($slug);
             $entityManager->flush();
 

@@ -11,6 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Services\createSlug;
+
+use function App\Services\createSlug;
 
 #[Route('/steps')]
 class StepsController extends AbstractController
@@ -35,16 +38,9 @@ class StepsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //setting a unique slug to stage
-            $i=1;
-            
-            $slug = preg_replace('/[^a-z0-9]+/i','-',trim(strtolower($step->getName())));
-            $baseSlug  = $slug;// retaining the value of simple slugg
-           
-            //searching if there is a slug in database like this and while it is adding 1 to last character
-            while($stepsRepository->findOneBy(['slug' => $slug])){ 
-                $slug = $baseSlug ."-".$i++;       
-            } 
+
+            $slug = createSlug($stepsRepository,$step);
+
             $step->setSlug($slug);
 
             $date = new DateTime();
@@ -80,17 +76,9 @@ class StepsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //setting a unique slug to stage
-            $i=1;
-            
-            $slug = preg_replace('/[^a-z0-9]+/i','-',trim(strtolower($step->getName())));
-            $baseSlug  = $slug;// retaining the value of simple slugg
-           
-            //searching if there is a slug in database like this and while it is adding 1 to last character
-            while($stepsRepository->findOneBy(['slug' => $slug])){ 
-                $slug = $baseSlug ."-".$i++;       
-            } 
-            $stepsRepository->setSlug($slug);
+            $slug = createSlug($stepsRepository,$step);
+
+            $step->setSlug($slug);
             $entityManager->flush();
 
             return $this->redirectToRoute('steps_index', [], Response::HTTP_SEE_OTHER);

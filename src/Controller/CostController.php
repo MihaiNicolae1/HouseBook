@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Services\CursBNR;
 
+
 #[Route('/cost')]
 class CostController extends AbstractController
 {
@@ -41,31 +42,70 @@ class CostController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $currencyChoice = $form->get("currencyChoice")->getData();
+             if($currencyChoice == "EUR"){
+                    //Getting the EUR value and setting it 
+                    $eurValue = $form->get("value")->getData();
+                    $cost->setEur($eurValue);
 
-            if($currencyChoice == "EUR"){
-                //Getting the EUR value and setting it 
-                $eurValue = $form->get("value")->getData();
-                $cost->setEur($eurValue);
+                    //Getting the RON-EUR exchange rate
+                    $eurExchangeRate = $curs->getExchangeRate("EUR");
+                    //Calculating the equivalent in RON
+                    $ronValue = $eurValue * $eurExchangeRate;
+                    $ronValue = round($ronValue,2);
+                    //Setting the RON value
+                    $cost->setRon($ronValue);
 
-                //Getting the RON-EUR exchange rate
-                $eurExchangeRate = $curs->getExchangeRate("EUR");
-                //Calculating the equivalent in RON
-                $ronValue = $eurValue * $eurExchangeRate;
-                $ronValue = round($ronValue,2);
-                //Setting the RON value
-                $cost->setRon($ronValue);
-
-                //Getting the RON-USD exchange rate
-                $usdExchangeRate = $curs->getExchangeRate("USD");
-                //Calculating the equivalent in USD
-                $usdValue = $ronValue / $usdExchangeRate;
-                $usdValue = round($usdValue,2);
-                //Setting the USD value
-                $cost->setUsd($usdValue);
-            }
+                    //Getting the RON-USD exchange rate
+                    $usdExchangeRate = $curs->getExchangeRate("USD");
+                    //Calculating the equivalent in USD
+                    $usdValue = $ronValue / $usdExchangeRate;
+                    $usdValue = round($usdValue,2);
+                    //Setting the USD value
+                    $cost->setUsd($usdValue);
 
 
+                }elseif($currencyChoice == "USD"){
+                    //Getting the EUR value and setting it 
+                    $usdValue = $form->get("value")->getData();
+                    $cost->setUsd($usdValue);
 
+                    //Getting the RON-USD exchange rate
+                    $usdExchangeRate = $curs->getExchangeRate("USD");
+                    //Calculating the equivalent in RON
+                    $ronValue = $usdValue * $usdExchangeRate;
+                    $ronValue = round($ronValue,2);
+                    //Setting the RON value
+                    $cost->setRon($ronValue);
+
+                    //Getting the RON-EUR exchange rate
+                    $eurExchangeRate = $curs->getExchangeRate("EUR");
+                    //Calculating the equivalent in EUR
+                    $eurValue = $ronValue / $eurExchangeRate;
+                    $eurValue = round($eurValue,2);
+                    //Setting the EUR value
+                    $cost->setEur($eurValue);
+                }elseif($currencyChoice == "RON"){
+                    //Getting the RON value and setting it
+                    $ronValue = $form->get("value")->getData();
+                    $cost->setRon($ronValue);
+
+                    //Getting the RON-USD exchange rate
+                    $usdExchangeRate = $curs->getExchangeRate("USD");
+                    //Calculating the equivalent in RON
+                    $usdValue = $ronValue / $usdExchangeRate;
+                    $usdValue = round($usdValue,2);
+                    //Setting the USD value
+                    $cost->setUsd($usdValue);
+
+
+                    //Getting the RON-EUR exchange rate
+                    $eurExchangeRate = $curs->getExchangeRate("EUR");
+                    //Calculating the equivalent in EUR
+                    $eurValue = $ronValue / $eurExchangeRate;
+                    $eurValue = round($eurValue,2);
+                    //Setting the EUR value
+                    $cost->setEur($eurValue);
+                }
 
 
 
