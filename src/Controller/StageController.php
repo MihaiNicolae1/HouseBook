@@ -94,14 +94,14 @@ class StageController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'stage_delete', methods: ['POST'])]
+    #[Route('/delete/{slug}', name: 'stage_delete', methods: ['POST'])]
     public function delete(Request $request, Stage $stage, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$stage->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$stage->getSlug(), $request->request->get('_token'))) {
             $entityManager->remove($stage);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('stage_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('project_show','slug'=>$stage->getSlug() , [], Response::HTTP_SEE_OTHER);
     }
 }
