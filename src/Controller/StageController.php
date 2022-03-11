@@ -32,8 +32,8 @@ class StageController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager,StageRepository $stageRepository, ProjectRepository $projectRepository): Response
     {
         
-        $slug = $request->get('slug');
-        $project = $projectRepository->findOneBy(['slug' => $slug]);
+        $project_slug = $request->get('slug');
+        $project = $projectRepository->findOneBy(['slug' => $project_slug]);
        
         $stage = new Stage();
 
@@ -45,7 +45,7 @@ class StageController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             
-            $slug = createSlug($projectRepository,$stage);
+            $slug = createSlug($stageRepository,$stage);
 
             $stage->setProject($project);
             $stage->setSlug($slug);
@@ -55,7 +55,7 @@ class StageController extends AbstractController
             $entityManager->persist($stage);
             $entityManager->flush();
 
-            return $this->redirectToRoute('stage_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('project_show', ['slug'=>$project_slug], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('stage/new.html.twig', [
@@ -94,14 +94,17 @@ class StageController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{slug}', name: 'stage_delete', methods: ['POST'])]
+    #[Route('/delete/{slug}', name: 'stage_delete', methods: ['POST','GET'])]
     public function delete(Request $request, Stage $stage, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$stage->getSlug(), $request->request->get('_token'))) {
+            $project = $stage->getProject();
+            $project_slug = $project->getSlug();
+
             $entityManager->remove($stage);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('project_show','slug'=>$stage->getSlug() , [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('project_show', ['slug'=>$project_slug], Response::HTTP_SEE_OTHER);
     }
 }
