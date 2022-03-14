@@ -42,6 +42,7 @@ class StepsController extends AbstractController
             $slug = createSlug($stepsRepository,$step);
 
             $step->setSlug($slug);
+            $project_slug = $stage->getProject()->getSlug();
 
             $date = new DateTime();
             $step->setCreatedAt($date);
@@ -51,7 +52,7 @@ class StepsController extends AbstractController
             $entityManager->persist($step);
             $entityManager->flush();
 
-            return $this->redirectToRoute('steps_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('project_show', ['slug'=>$project_slug], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('steps/new.html.twig', [

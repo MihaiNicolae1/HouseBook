@@ -101,6 +101,8 @@ class StageController extends AbstractController
             $project = $stage->getProject();
             $project_slug = $project->getSlug();
 
+            
+            
             $entityManager->remove($stage);
             $entityManager->flush();
         }

@@ -35,10 +35,10 @@
         <ol>
         {% for stage in project.stage %}
              
-            <li><p class="d-inline">{{stage.name}}</p>
-            <a href="{{ path('steps_new', {'slug': stage.slug}) }}" class="d-inline text-success"><i class="fas fa-solid fa-plus"></i></a>
-            {{ include('stage/_delete_form.html.twig') }}
-            
+            <li>
+              <p class="d-inline">{{stage.name}}</p>
+              <a href="{{ path('steps_new', {'slug': stage.slug}) }}" class="d-inline text-success"><i class="fas fa-solid fa-plus"></i></a>
+              {{ include('stage/_delete_form.html.twig') }}
             </li>
             
               
