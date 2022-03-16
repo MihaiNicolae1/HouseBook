@@ -18,19 +18,19 @@
         {% endblock %}
 	</head>
 	<body class="baseTemplate">
-		<nav class="navbar navbar-expand-lg shadow-sm p-3 mb-5 bg-dark text-light">
+		<nav class="navbar navbar-expand-lg shadow-sm p-3 mb-5 bg-light text-dark">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="/"><img src="../logo/FullLogo.png" style="height:4em"></a>
+				<a class="navbar-brand" href="/"><img src="/logo/OnlyPictureLogo.png" style="height:3em"></a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 						<li class="nav-item">
-							<a class="nav-link section active" href="/project"><i class="fas fa-house-user"></i></a>
+							<a class="nav-link" href="/project"><i class="fas fa-house-user"></i></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link section active pl-15" href="/project/new"><i class="fas fa-plus-square"></i></a>
+							<a class="nav-link pl-15" href="/project/new"><i class="fas fa-plus-square"></i></a>
 						</li>
 					</ul>
 					<form class="d-flex">
@@ -44,7 +44,7 @@
 						</ul>
 						<ul class="navbar-nav">
 							<li class="nav-item">
-								<a class="nav-link section" aria-current="page" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
+								<a class="nav-link" aria-current="page" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
 							</li>
 						</ul>
 						
@@ -54,7 +54,7 @@
 								<a class="btn btn-primary " href="/login">Login</a>
 							</li>
 							<li class="nav-item ">
-								<a class="nav-link section" aria-current="page" href="/register">Register</a>
+								<a class="nav-link" aria-current="page" href="/register">Register</a>
 							</li>
 						</ul>
 						{% endif %}

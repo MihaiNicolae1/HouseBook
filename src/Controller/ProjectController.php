@@ -7,6 +7,7 @@ use DateTime;
 use App\Entity\Stage;
 use App\Form\ProjectType;
 use App\Services\createSlug;
+use App\Services\addFile;
 use App\Repository\ProjectRepository;
 use App\Repository\StageRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -57,6 +58,8 @@ class ProjectController extends AbstractController
             //Getting the location and creating the new folder
             $file_location = $this->getParameter('projects_directory') . '/' . $project_directory;
             mkdir($file_location, 0700);
+
+
             $profilePicture = $form->get('ProfilePicture')->getData();//getting the profile picture
             
 

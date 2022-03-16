@@ -34,7 +34,7 @@ class Steps
 
     /**
      * @ORM\ManyToOne(targetEntity=Stage::class, inversedBy="steps")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
      */
     private $stage;
 

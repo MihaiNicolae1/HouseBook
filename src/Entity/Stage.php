@@ -26,7 +26,7 @@ class Stage
 
     /**
      * @ORM\ManyToOne(targetEntity=Project::class, inversedBy="stage")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $project;
 

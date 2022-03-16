@@ -17,7 +17,7 @@ class ProjectType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('ProfilePicture', FileType::class,[
-                'label' => 'Profile picture(JPG/JPEG)',
+                'label' => 'Profile picture(image only)',
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
@@ -31,8 +31,9 @@ class ProjectType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '10240k',
-                        'mimeTypesMessage' => 'Please upload a valid JPG or JPEG document',
+                        'maxSize' => '10M',
+                        'mimeTypesMessage' => 'Please upload a valid image',
+                        'mimeTypes' => 'image/*'
                     ])
                 ],
             ])

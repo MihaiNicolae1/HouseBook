@@ -28,7 +28,7 @@ class Cost
     private $value;
     /**
      * @ORM\ManyToOne(targetEntity=Project::class, inversedBy="costs")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $project;
 

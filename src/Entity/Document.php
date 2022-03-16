@@ -34,15 +34,20 @@ class Document
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="documents")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $author;
 
     /**
      * @ORM\ManyToOne(targetEntity=Project::class, inversedBy="documents")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $project_id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $path;
 
     public function getId(): ?int
     {
@@ -105,6 +110,18 @@ class Document
     public function setProjectId(?project $project_id): self
     {
         $this->project_id = $project_id;
+
+        return $this;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(string $path): self
+    {
+        $this->path = $path;
 
         return $this;
     }
