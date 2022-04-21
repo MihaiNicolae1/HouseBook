@@ -62,8 +62,6 @@ class CostController extends AbstractController
                     $usdValue = round($usdValue,2);
                     //Setting the USD value
                     $cost->setUsd($usdValue);
-
-
                 }elseif($currencyChoice == "USD"){
                     //Getting the EUR value and setting it 
                     $usdValue = $form->get("value")->getData();
@@ -105,10 +103,11 @@ class CostController extends AbstractController
                     $eurValue = round($eurValue,2);
                     //Setting the EUR value
                     $cost->setEur($eurValue);
+                    //Adding the cost to the project
+
                 }
-
-
-
+            // Add the value to the costs of the project
+            $project->addCostsToProject($eurValue, $usdValue, $ronValue);
             $cost->setProject($project);
             $entityManager->persist($cost);
             $entityManager->flush();

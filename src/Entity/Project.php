@@ -70,6 +70,22 @@ class Project
      */
     private $documents;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $costEuro;
+
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $costUsd;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $costRon;
+
     public function __construct()
     {
         $this->stage = new ArrayCollection();
@@ -253,5 +269,67 @@ class Project
         }
 
         return $this;
+    }
+
+    public function getCostEuro(): ?float
+    {
+        return $this->costEuro;
+    }
+
+    public function setCostEuro(float $costEuro): self
+    {
+        $this->costEuro = $costEuro;
+
+        return $this;
+    }
+
+    public function getSetCostUsd(): ?float
+    {
+        return $this->setCostUsd;
+    }
+
+    public function setSetCostUsd(float $setCostUsd): self
+    {
+        $this->setCostUsd = $setCostUsd;
+
+        return $this;
+    }
+
+    public function getCostUsd(): ?float
+    {
+        return $this->costUsd;
+    }
+
+    public function setCostUsd(float $costUsd): self
+    {
+        $this->costUsd = $costUsd;
+
+        return $this;
+    }
+
+    public function getCostRon(): ?float
+    {
+        return $this->costRon;
+    }
+
+    public function setCostRon(float $costRon): self
+    {
+        $this->costRon = $costRon;
+
+        return $this;
+    }
+    public function addCostsToProject(float $costEuro, float $costUsd, float $costRon){
+
+        $currentCostEuro = $this->getCostEuro();
+        $currentCostUsd = $this->getCostUsd();
+        $currentCostRon = $this->getCostRon();
+
+        $newCostEuro = $currentCostEuro + $costEuro;
+        $newCostUsd = $currentCostUsd + $costUsd;
+        $newCostRon = $currentCostRon + $costRon;
+
+        self::setCostEuro($newCostEuro);
+        self::setCostUsd($newCostUsd);
+        self::setCostRon($newCostRon);
     }
 }

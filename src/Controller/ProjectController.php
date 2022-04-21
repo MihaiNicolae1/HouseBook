@@ -82,7 +82,10 @@ class ProjectController extends AbstractController
             $project->setSlug($slug);
             $date = new DateTime();
             $project->setCreatedAt($date);
-            
+            $project->setCostEuro(0);
+            $project->setCostUsd(0);
+            $project->setCostRon(0);
+
             $entityManager->persist($project);
             $entityManager->flush();
 

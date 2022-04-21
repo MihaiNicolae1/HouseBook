@@ -7,27 +7,26 @@
     <div class="container">
     <div class="row mb-5 cstm-height-card">
     {% for project in app.user.project %}
-		<div class="col-md-4 pb-5">
-			<div class="card">
-                    <div class="d-flex justify-content-center pt-5 pb-5">
-                        <img src={{asset ('/uploads/projects/'~ project.projectDirectory ~'/'~ project.profilePicture) }} class="card-img-top img-fluid-2 img-thumbnail" alt="...">
-                    </div>
-					<div class="card-body">
-					<h5 class="card-title">{{project.name}}</h5>
-					<p class="card-text pb-2">{{project.description}}</p>
-                    <div class="d-flex justify-content-center pb-3">
-					    <a href="{{ path('project_show', {'slug': project.slug}) }}" class="btn btn-sm btn-primary stretched-link">Open</a>
-                    </div>
-                    <div class="d-flex justify-content-between card-text text-muted fw-light mt-10"> 
-                        <p><i class="fas fa-euro-sign small"></i>10000</p>
-                        
-                        <p><i class="far fa-user small"></i> {{project.user.firstName}} {{project.user.lastName}}</p>
-                        <p><i class="fas fa-calendar-alt small"></i> {{project.createdAt|date("M d, y")}}</p>
-                        
-                    </div>
+        
+		    <div class="d-flex justify-content-between col-md-4 pb-5 rounded">
+		    	<div class="card">
+                <a href="{{ path('project_show', {'slug': project.slug}) }}">
+                        <div class="d-flex justify-content-center">
+                            <img src={{asset ('/uploads/projects/'~ project.projectDirectory ~'/'~ project.profilePicture) }} class="card-img" alt="...">
+                        </div>
+		    			<div class="card-body mt-5">
+		    			    <h5 class="card-title">{{project.name}}</h5>
+		    			    <p class="card-text mt-4">{{project.description}}</p>
+                            <div class="card-text d-flex justify-content-between mt-4"> 
+                                <p><i class='bx bx-euro'></i> {{project.costEuro}}</p>
+                                <p><i class='bx bxs-user'></i> {{project.user.firstName}} {{project.user.lastName}}</p>
+                                <p><i class='bx bxs-calendar-alt'></i> {{project.createdAt|date("M d, y")}}</p>
+                            </div>
+                        </div>
+		    	</a>
                 </div>
-			</div>
-		</div>
+		    </div>
+        
     {% else %}
             <tr>
                 <td colspan="3">No projects to show!Please create one!</td>

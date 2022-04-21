@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap");
 
 :root {
     --header-height: 3rem;
     --nav-width: 68px;
     --first-color: #FFFFFF;
     --first-color-light: #8E919E;
-    --header-text: #63636E;
+    --header-text: #595379;
     --btn-header-background: #F0F5FB;
     --white-color: #F26719;
     --title-color: #111010;
@@ -21,7 +21,8 @@
 *,
 ::before,
 ::after {
-    box-sizing: border-box
+    box-sizing: border-box;
+    
 }
 
 body {
@@ -51,7 +52,8 @@ a {
     padding: 0 1rem;
     background-color: var(--first-color);
     z-index: var(--z-fixed);
-    transition: .5s
+    transition: .5s;
+    box-shadow: 0px 18px 50px 5px rgba(32, 32, 32, 0.111);
 }
 
 .header_toggle {
@@ -111,6 +113,7 @@ a {
     border-color: var(--header-text);
     width: 90px;
     margin-right: 10px;
+    font-weight: 800;
 }
 .header_btn_login:hover{
     color: var(--first-color);
@@ -200,6 +203,45 @@ a {
 
 .height-100 {
     height: 100vh
+}
+
+.card a{
+    text-decoration: none;
+}
+.card a:hover{
+    text-decoration: none;
+}
+.card .card-text{
+    color:var(--header-text);
+    font-weight: 600;
+}
+.card .card-title{
+    color:var(--title-color);
+    font-weight: 800;
+}
+.card{
+    border-radius: 7%;
+    border-style: none;
+    height: 30rem;
+}
+.card-body{
+    height: fit-content;
+}
+.card-img-top{
+    border-radius:7%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    box-shadow: 0px 18px 50px 5px rgba(32, 32, 32, 0.111);
+}
+.header_btn_register{
+    justify-content: center;
+    color: var(--title-color);
+    width: 90px;
+    margin-right: 10px;
+    font-weight: 800;
+}
+.header_btn_register:hover{
+    color: var(--purple);
 }
 
 @media screen and (min-width: 768px) {
