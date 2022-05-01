@@ -5,6 +5,7 @@
 {% block body %}
     <h1>Document</h1>
 
+    {% for document in app.user.documents %}
     <table class="table">
         <tbody>
             <tr>
@@ -25,6 +26,11 @@
             </tr>
         </tbody>
     </table>
+        {% else %}
+            <tr>
+                <td colspan="3">No projects to show!Please create one!</td>
+            </tr>
+        {% endfor %}
 
     <a href="{{ path('document_index') }}">back to list</a>
 

@@ -112,7 +112,7 @@ class CostController extends AbstractController
             $entityManager->persist($cost);
             $entityManager->flush();
 
-            return $this->redirectToRoute('cost_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('project_show', ['slug'=>$request->get('slug')], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('cost/new.html.twig', [
