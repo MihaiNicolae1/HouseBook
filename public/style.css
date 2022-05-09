@@ -90,7 +90,7 @@ a {
 .header_text_user a:hover{
     color: var(--purple);
 }
-
+#map { height: 180px; }
 .header_text_mail a{
     font-weight: 600;
     color: var(--header-text);
@@ -244,7 +244,7 @@ a {
     color: var(--purple);
 }
 #map {
-    height: 300px;
+    height:400px;
 }
 #description {
     font-family: Roboto;
@@ -315,6 +315,7 @@ a {
     font-weight: 500;
     padding: 6px 12px;
 }
+
 @media screen and (min-width: 768px) {
     body {
         margin: calc(var(--header-height) + 1rem) 0 0 0;
