@@ -22,8 +22,4 @@ headerpd.classList.toggle('body-pd')
 }
 
 showNavbar('header-toggle','nav-bar','body-pd','header')
-
-
-
-// Your code to run since DOM is loaded and ready
 });
