@@ -6,66 +6,19 @@
         
 
     <div class="container-fluid">
-    <h1>{{project.name}}</h1>
-    <div class="row">
+    <div class="row first-row">
     
-    <div class="col-12 col-sm-4">
-        <div class="container-fluid">
-            <img src={{asset ('/uploads/projects/'~ project.projectDirectory ~'/'~ project.profilePicture) }} class="img-fluid project-image border border-3 rounded" alt="...">
+        <div class="col-12 col-sm-4 first-col">
+            <img src={{asset ('/uploads/projects/'~ project.projectDirectory ~'/'~ project.profilePicture) }} class="project-image" alt="...">
         </div>
-        <div class="d-grid gap-2 col-6 mx-auto mt-10">
-          <a href="{{ path('project_index') }}" class="btn btn-secondary">Back to your projects</a>
-          <a href="{{ path('stage_new', {'slug': project.slug}) }}" class="btn btn-success">Add stage</a>
-          <a href="{{ path('cost_new', {'slug': project.slug}) }}" class="btn btn-primary">Add cost</a>
-          <a href="{{ path('project_edit', {'slug': project.slug}) }}" class="btn btn-secondary">Edit</a>
-
-
-        </div>
-        
-    </div>
     
     <div class="col-12 col-sm-8">
-      <div class="row project-info border border-2">
-        <p>Beneficiary: {{project.user.firstName}}</p>
-        <p>Description: {{project.Description}}</p>
-        <p>Created: {{project.createdat|date("h:i | d-M-Y")}} ({{project.createdat|ago}})</p>
-        <p>Number of stages: {{ project.stage|length }}</p>
-          <div style="display: none;" id="project_lat">{{project.lat}}</div>
-          <div style="display: none;" id="project_lng">{{project.lng}}</div>
-        <div class="container-fluid">
-        <ol>
-        {% for stage in project.stage %}
-             
-            <li>
-              <p class="d-inline">{{stage.name}}</p>
-              <a href="{{ path('steps_new', {'slug': stage.slug}) }}" class="d-inline text-success"><i class="fas fa-solid fa-plus"></i>Add step</a>
-              {{ include('stage/_delete_form.html.twig') }}
-            </li>
-            
-              
-            
-              {% for step in stage.steps %}
-              
-                 <p> - {{step.name}} </p>
-             
-              {% endfor %}
-              
-            
-         {% endfor %}
-         </ol>
-         </div>
-          <h1>Add new Document</h1>
-          <a href="{{ path('document_new', {'slug': project.slug}) }}" class="btn btn-secondary">Add</a>
-          {% for document in project.documents %}
-            <a href="{{ path('document_download', {'file': document.path}) }}">{{document.name}}</a>
-
-          {% endfor %}
-
-
-        <p></p>
-      </div>
+      
     </div>
   </div>
+
+
+
 </div>
   <div id="map"></div>
     <div id="infowindow-content">
@@ -76,6 +29,20 @@
             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ project.slug) }}">
   <button class="btn btn-danger">Delete</button>
   </form>
+    <h1>Add new Document</h1>
+    <a href="{{ path('document_new', {'slug': project.slug}) }}" class="btn btn-secondary">Add</a>
+    {% for document in project.documents %}
+        <a href="{{ path('document_download', {'file': document.path}) }}">{{document.name}}</a>
+    {% endfor %}
+
+
+
+    {% for stage in project.stage %}
+
+        <a href="{{ path('steps_new', {'slug': stage.slug}) }}" class="d-inline text-success"><i class="fas fa-solid fa-plus"></i>Add step</a>
+        {{ include('stage/_delete_form.html.twig') }}
+    {% endfor %}
+
 
     <script
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_iCIeZYa54exJQEYuAXAtPkQvWWwxzkQ&callback=initMap&libraries=places&v=weekly"

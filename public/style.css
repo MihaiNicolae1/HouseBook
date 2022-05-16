@@ -315,7 +315,22 @@ a {
     font-weight: 500;
     padding: 6px 12px;
 }
+.first-row{
+    background-color: var(--first-color);
+    border-radius: 50px;
+    object-fit: cover;
 
+}
+.first-col{
+    padding-left: 0px !important;
+}
+.project-image{
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    width: 100%;
+    object-fit: cover;
+    height: 350px;
+}
 @media screen and (min-width: 768px) {
     body {
         margin: calc(var(--header-height) + 1rem) 0 0 0;
