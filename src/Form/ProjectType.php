@@ -4,10 +4,13 @@ namespace App\Form;
 
 use App\Entity\Project;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class ProjectType extends AbstractType
 {
@@ -37,6 +40,8 @@ class ProjectType extends AbstractType
                     ])
                 ],
             ])
+            ->add('lat',HiddenType::class)
+            ->add('lng',HiddenType::class)
         ;
     }
 

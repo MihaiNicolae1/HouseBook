@@ -30,6 +30,8 @@
         <p>Description: {{project.Description}}</p>
         <p>Created: {{project.createdat|date("h:i | d-M-Y")}} ({{project.createdat|ago}})</p>
         <p>Number of stages: {{ project.stage|length }}</p>
+          <div style="display: none;" id="project_lat">{{project.lat}}</div>
+          <div style="display: none;" id="project_lng">{{project.lng}}</div>
         <div class="container-fluid">
         <ol>
         {% for stage in project.stage %}
@@ -65,9 +67,50 @@
     </div>
   </div>
 </div>
+  <div id="map"></div>
+    <div id="infowindow-content">
+        <span id="place-name" class="title">{{project.name}}</span><br />
+        <span id="place-address" >{{project.Description}}</span><br />
+    </div>
   <form method="post" action="{{ path('project_delete', {'slug': project.slug}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ project.slug) }}">
   <button class="btn btn-danger">Delete</button>
   </form>
-    
+
+    <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_iCIeZYa54exJQEYuAXAtPkQvWWwxzkQ&callback=initMap&libraries=places&v=weekly"
+            defer
+    ></script>
+
+<script>
+    let map;
+    let service;
+    let infowindow;
+
+    function initMap() {
+        const project_lat = document.getElementById("project_lat").textContent;
+        const project_lng = document.getElementById("project_lng").textContent;
+
+        const project = new google.maps.LatLng(project_lat, project_lng);
+
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: project,
+            zoom: 15,
+        });
+
+        marker = new google.maps.Marker({
+            position: project,
+            map
+        });
+        const infowindow = new google.maps.InfoWindow();
+        const infowindowContent = document.getElementById("infowindow-content");
+
+        infowindow.setContent(infowindowContent);
+
+        infowindow.open(map, marker);
+
+    }
+
+    window.initMap = initMap;
+</script>
 {% endblock %}
