@@ -336,17 +336,51 @@ a {
     object-fit: cover;
     height: 350px;
 }
+.second-col{
+    padding-left: 3em;
+    padding-top: 2em;
+}
 .project_title{
-    margin-top: 1em;
-    margin-left: 1em;
     font-size: 1.9em;
     font-weight: bold;
 }
 .project_map {
+    padding-top:0.8em;
+    padding-bottom: 0em;
     font-weight: bold;
+    font-size: medium;
+
+}
+.project_link {
     color: var(--header-text);
-    align-items: center;
-    display: flex;
+    margin-bottom: 0 !important;
+}
+.project_link:hover {
+    color: var(--purple)
+}
+.row{
+    --bs-gutter-x: 0rem;
+}
+.project_info{
+    font-size: large;
+}
+
+.project_btn{
+    justify-content: center;
+    color: var(--first-color);
+    background-color: var(--purple);
+    border-color: var(--purple);
+    margin-right: 10px;
+    font-weight: 800;
+}
+.project_btn:hover{
+
+    color: var(--first-color);
+    background-color: var(--white-color);
+    border-color: var(--white-color);
+}
+.project_button_row{
+    padding-top:2.3em;
 }
 @media screen and (min-width: 768px) {
     body {

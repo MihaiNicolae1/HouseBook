@@ -8,26 +8,53 @@
     <div class="container-fluid">
         <div class="row first-row">
 
-            <div class="col-12 col-sm-4 first-col">
+            <div class="col-12 col-sm-3 first-col">
                 <img src={{asset ('/uploads/projects/'~ project.projectDirectory ~'/'~ project.profilePicture) }} class="project-image" alt="...">
             </div>
 
-            <div class="col-12 col-sm-8">
-                <div class="row project_title">
+            <div class="col-12 col-sm-9 second-col">
+                <div class="project_title">
                     {{ project.name }} <br/>
                     {{ project.address }}
                 </div>
-                <div class="row project_map align-items-center ">
+                <div class="row project_map">
+                      <a class='nav_link project_link' href="/"><i class='bx bxs-map'> </i> Open in maps</a>
+                </div>
+                <div class="row project_map project_info">
                     <div class="col">
-
-
-                        <ul class='bx-ul'>
-                            <li><i class='bx  bx-right-arrow'></i>List Item 1</li>
-                            <li><i  class='bx  bx-x'></i>List Item 2</li>
-                            <li><i  class='bx  bx-plus'></i>List Item 3</li>
-                        </ul>
+                        <a class='nav_link project_link' href="/">
+                            <i class='bx bxs-dollar-circle'></i>{{ project.costusd }} Invested
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a class='nav_link project_link' href="/">
+                            <i class='bx bxs-group'></i> Participants
+                        </a>
+                    </div>
+                    {% set count = 0 %}
+                    {% for stage in project %}
+                        {% for step in stage %}
+                            {% set count = count + 1 %}
+                        {% endfor %}
+                    {% endfor %}
+                    <div class="col">
+                        <a class='nav_link project_link' href="/">
+                            <i class='bx bxs-layer' ></i>   {{ count }} Steps in project
+                        </a>
                     </div>
                 </div>
+                <div class="row project_map project_button_row">
+                    <div class="col-12 col-md-8 col-sm-4">
+                        <a class="btn nav_link project_link project_btn rounded-pill">
+                            <i class='bx bxs-folder-open'></i>Manage project's documents
+                        </a>
+                    </div>
+                    <div class="col-12 col-md-4 col-sm-8">
+
+                    </div>
+
+                </div>
+
             </div>
         </div>
 
