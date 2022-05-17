@@ -13,9 +13,22 @@
             </div>
 
             <div class="col-12 col-sm-9 second-col">
-                <div class="project_title">
-                    {{ project.name }} <br/>
-                    {{ project.address }}
+                <div class="row project_title">
+                    <div class="col-12 col-md-11 col-sm-11">
+                        {{ project.name }} <br/>
+                        {{ project.address }}
+                    </div>
+                    <div class="col-12 col-md-1 col-sm-1">
+                        <div class="dropdown dropleft">
+                            <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class='bx bxs-cog' ></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Delete</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row project_map">
                       <a class='nav_link project_link' href="/"><i class='bx bxs-map'> </i> Open in maps</a>
@@ -44,12 +57,12 @@
                     </div>
                 </div>
                 <div class="row project_map project_button_row">
-                    <div class="col-12 col-md-8 col-sm-4">
+                    <div class="col-12 col-md-5 col-sm-4">
                         <a class="btn nav_link project_link project_btn rounded-pill">
                             <i class='bx bxs-folder-open'></i>Manage project's documents
                         </a>
                     </div>
-                    <div class="col-12 col-md-4 col-sm-8">
+                    <div class="col-12 col-md-7 col-sm-8">
 
                     </div>
 
@@ -88,7 +101,6 @@
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_iCIeZYa54exJQEYuAXAtPkQvWWwxzkQ&callback=initMap&libraries=places&v=weekly"
             defer
     ></script>
-    <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
     <script>
         let map;
         let service;
