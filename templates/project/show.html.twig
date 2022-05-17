@@ -3,12 +3,12 @@
 {% block title %}HouseBook | Project{% endblock %}
 
 {% block body %}
-        
+
 
     <div class="container-fluid">
     <h1>{{project.name}}</h1>
     <div class="row">
-    
+
     <div class="col-12 col-sm-4">
         <div class="container-fluid">
             <img src={{asset ('/uploads/projects/'~ project.projectDirectory ~'/'~ project.profilePicture) }} class="img-fluid project-image border border-3 rounded" alt="...">
@@ -21,9 +21,9 @@
 
 
         </div>
-        
+
     </div>
-    
+
     <div class="col-12 col-sm-8">
       <div class="row project-info border border-2">
         <p>Beneficiary: {{project.user.firstName}}</p>
@@ -35,22 +35,22 @@
         <div class="container-fluid">
         <ol>
         {% for stage in project.stage %}
-             
+
             <li>
               <p class="d-inline">{{stage.name}}</p>
               <a href="{{ path('steps_new', {'slug': stage.slug}) }}" class="d-inline text-success"><i class="fas fa-solid fa-plus"></i>Add step</a>
               {{ include('stage/_delete_form.html.twig') }}
             </li>
-            
-              
-            
+
+
+
               {% for step in stage.steps %}
-              
+
                  <p> - {{step.name}} </p>
-             
+
               {% endfor %}
-              
-            
+
+
          {% endfor %}
          </ol>
          </div>
@@ -70,7 +70,7 @@
   <div id="map"></div>
     <div id="infowindow-content">
         <span id="place-name" class="title">{{project.name}}</span><br />
-        <span id="place-address" >{{project.Description}}</span><br />
+        <span id="place-address" >{{project.address}}</span><br />
     </div>
   <form method="post" action="{{ path('project_delete', {'slug': project.slug}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ project.slug) }}">

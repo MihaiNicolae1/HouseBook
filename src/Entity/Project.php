@@ -96,6 +96,11 @@ class Project
      */
     private $lat;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $address;
+
     public function __construct()
     {
         $this->stage = new ArrayCollection();
@@ -363,6 +368,18 @@ class Project
     public function setLat(float $lat): self
     {
         $this->lat = $lat;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }

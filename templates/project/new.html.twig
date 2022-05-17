@@ -92,6 +92,7 @@
 
                 document.getElementById("project_lat").value = place.geometry.location.lat();
                 document.getElementById("project_lng").value = place.geometry.location.lng();
+                document.getElementById("project_address").value = place.formatted_address;
                 infowindow.open(map, marker);
 
             });
