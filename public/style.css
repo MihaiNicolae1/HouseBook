@@ -5,7 +5,7 @@
     --nav-width: 68px;
     --first-color: #FFFFFF;
     --first-color-light: #8E919E;
-    --header-text: #595379;
+    --header-text: #545973;
     --btn-header-background: #F0F5FB;
     --white-color: #F26719;
     --title-color: #111010;
@@ -316,6 +316,38 @@ a {
     padding: 6px 12px;
 }
 
+
+
+.first-row{
+    background-color: var(--first-color);
+    border-radius: 40px;
+    object-fit: cover;
+    margin-top:150px;
+
+}
+.first-col{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+.project-image{
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+    width: 100%;
+    object-fit: cover;
+    height: 350px;
+}
+.project_title{
+    margin-top: 1em;
+    margin-left: 1em;
+    font-size: 1.9em;
+    font-weight: bold;
+}
+.project_map {
+    font-weight: bold;
+    color: var(--header-text);
+    align-items: center;
+    display: flex;
+}
 @media screen and (min-width: 768px) {
     body {
         margin: calc(var(--header-height) + 1rem) 0 0 0;
