@@ -228,9 +228,7 @@ a {
     height: fit-content;
 }
 .card-img-top{
-    border-radius:7%;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    border-radius: 7% 7% 0 0;
     box-shadow: 0px 18px 50px 5px rgba(32, 32, 32, 0.111);
 }
 .header_btn_register{
@@ -325,6 +323,12 @@ a {
     margin-top:150px;
 
 }
+.second-row{
+    background-color: var(--first-color);
+    border-radius: 40px;
+    object-fit: cover;
+    margin-top:50px;
+}
 .first-col{
     padding-left: 0px !important;
     padding-right: 0px !important;
@@ -387,6 +391,13 @@ a {
     display: none;
 }
 
+.project-description{
+    font-size: 1.3em;
+    font-weight: normal;
+    padding-left: 2em;
+    padding-top: 1.2em;
+    padding-bottom: 1.3em;
+}
 @media screen and (min-width: 768px) {
     body {
         margin: calc(var(--header-height) + 1rem) 0 0 0;
