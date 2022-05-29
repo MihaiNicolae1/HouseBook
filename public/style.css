@@ -404,7 +404,7 @@ a {
     width: 80%;
 }
 .document-show{
-    border-bottom: 1px;
+    border-bottom: 1px solid var(--grey);
 }
 .second-row{
     padding-left: 2em;
@@ -419,6 +419,9 @@ a {
 }
 .document-download:hover{
     color: var(--white-color);
+}
+.document-info{
+    font-weight: bold;
 }
 @media screen and (min-width: 768px) {
     body {

@@ -81,13 +81,14 @@
                     Section 2
                 </div>
                 <div class="col-12 col-md-12 col-lg-4">
-                    {% for document in project.documents|slice(0,3) %}
+                    {% for document in project.documents|slice(-3) %}
                         <div class="row document-show">
                             <div class="col-2 d-flex align-items-center">
                                 <i class='bx bxs-file bx-lg'></i>
                             </div>
-                            <div class="col-8">
+                            <div class="col-8 document-info">
                                 <p class="document-name">{{document.name}}</p>
+                                <p class="document-ext">{{document.name|split('.',2)[1]}}</p>
                             </div>
                             <div class="col-2 d-flex align-items-center">
                                 <a class="document-download" href="{{ path('document_download', {'file': document.path}) }}"><i class='bx bx-down-arrow-circle  bx-md'></i></a>
