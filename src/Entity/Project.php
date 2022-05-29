@@ -298,18 +298,6 @@ class Project
         return $this;
     }
 
-    public function getSetCostUsd(): ?float
-    {
-        return $this->setCostUsd;
-    }
-
-    public function setSetCostUsd(float $setCostUsd): self
-    {
-        $this->setCostUsd = $setCostUsd;
-
-        return $this;
-    }
-
     public function getCostUsd(): ?float
     {
         return $this->costUsd;

@@ -4,7 +4,6 @@
 
 {% block body %}
 
-
     <div class="container-fluid">
         <div class="row first-row">
 
@@ -31,7 +30,7 @@
                     </div>
                 </div>
                 <div class="row project_map">
-                      <a class='nav_link project_link' href="/"><i class='bx bxs-map'> </i> Open in maps</a>
+                      <a class='nav_link project_link' data-toggle="modal" data-target=".bd-example-modal-lg"><i class='bx bxs-map'> </i> Open in maps</a>
                 </div>
                 <div class="row project_map project_info">
                     <div class="col">
@@ -45,8 +44,8 @@
                         </a>
                     </div>
                     {% set count = 0 %}
-                    {% for stage in project %}
-                        {% for step in stage %}
+                    {% for stage in project.stage %}
+                        {% for step in stage.steps %}
                             {% set count = count + 1 %}
                         {% endfor %}
                     {% endfor %}
@@ -72,7 +71,30 @@
         </div>
         <div class="row second-row">
             <p class="project-description">{{ project.description }}</p>
-            <hr/>
+            <p class ="d-none" id="project_lat">{{project.lat}} </p>
+            <p class ="d-none" id="project_lng">{{project.lng}} </p>
+            <div class="row row-section"></div>
+                <div class="col-12 col-md-12 col-lg-4">
+                    Section 1
+                </div>
+                <div class="col-12 col-md-12 col-lg-4">
+                    Section 2
+                </div>
+                <div class="col-12 col-md-12 col-lg-4">
+                    {% for document in project.documents|slice(0,3) %}
+                        <div class="row document-show">
+                            <div class="col-2 d-flex align-items-center">
+                                <i class='bx bxs-file bx-lg'></i>
+                            </div>
+                            <div class="col-8">
+                                <p class="document-name">{{document.name}}</p>
+                            </div>
+                            <div class="col-2 d-flex align-items-center">
+                                <a class="document-download" href="{{ path('document_download', {'file': document.path}) }}"><i class='bx bx-down-arrow-circle  bx-md'></i></a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
         </div>
 
 
@@ -85,21 +107,45 @@
         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ project.slug) }}">
         <button class="btn btn-danger">Delete</button>
     </form>
-    <h1>Add new Document</h1>
-    <a href="{{ path('document_new', {'slug': project.slug}) }}" class="btn btn-secondary">Add</a>
-    {% for document in project.documents %}
-        <a href="{{ path('document_download', {'file': document.path}) }}">{{document.name}}</a>
-    {% endfor %}
 
+    <a href="{{ path('document_new', {'slug': project.slug}) }}" class="btn btn-secondary">Add Document</a>
 
-
+    <a href="{{ path('stage_new', {'slug': project.slug}) }}" class="btn btn-secondary">Add Stage</a>
+    <a href="{{ path('cost_new', {'slug': project.slug}) }}" class="btn btn-secondary">Add Cost</a>
+    <ol>
     {% for stage in project.stage %}
 
-        <a href="{{ path('steps_new', {'slug': stage.slug}) }}" class="d-inline text-success"><i class="fas fa-solid fa-plus"></i>Add step</a>
-        {{ include('stage/_delete_form.html.twig') }}
-    {% endfor %}
+        <li>{{ stage.name}}
+            <a href="{{ path('steps_new', {'slug': stage.slug}) }}" class="d-inline text-success"><i class="fas fa-solid fa-plus"></i>Add step</a>
+            {{ include('stage/_delete_form.html.twig') }}
+        </li>
+        {% for step in stage.steps %}
 
-    <div id="map"></div>
+            <p> - {{step.name}} </p>
+
+        {% endfor %}
+    {% endfor %}
+    </ol>
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Project's location on the map</h5>
+                    <a type="button" class="close nav_link project_link" data-dismiss="modal" aria-label="Close">
+                        <i class='bx bx-x bx-md'></i>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <div id="map"></div>
+                    <div id="infowindow-content">
+                        <span id="place-name" class="title"></span><br />
+                        <span id="place-address" ></span><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_iCIeZYa54exJQEYuAXAtPkQvWWwxzkQ&callback=initMap&libraries=places&v=weekly"
             defer

@@ -4,6 +4,7 @@
     --header-height: 3rem;
     --nav-width: 68px;
     --first-color: #FFFFFF;
+    --grey: #D3D3D5;
     --first-color-light: #8E919E;
     --header-text: #545973;
     --btn-header-background: #F0F5FB;
@@ -90,7 +91,9 @@ a {
 .header_text_user a:hover{
     color: var(--purple);
 }
-#map { height: 180px; }
+#map {
+    height: 100%;
+}
 .header_text_mail a{
     font-weight: 600;
     color: var(--header-text);
@@ -394,9 +397,28 @@ a {
 .project-description{
     font-size: 1.3em;
     font-weight: normal;
+}
+.row-section{
+    height: 1px;
+    background-color: var(--purple);
+    width: 80%;
+}
+.document-show{
+    border-bottom: 1px;
+}
+.second-row{
     padding-left: 2em;
     padding-top: 1.2em;
     padding-bottom: 1.3em;
+}
+.bxs-file{
+    color: var(--grey);
+}
+.document-download{
+    color: var(--purple);
+}
+.document-download:hover{
+    color: var(--white-color);
 }
 @media screen and (min-width: 768px) {
     body {
@@ -425,11 +447,14 @@ a {
         padding: 1rem 1rem 0 0
     }
 
-    .show {
+    .show-nav {
         width: calc(var(--nav-width) + 156px)
     }
 
     .body-pd {
         padding-left: calc(var(--nav-width) + 188px)
     }
+}
+.bd-example-modal-lg{
+    width: 100% !important;
 }
