@@ -17,6 +17,9 @@
     --z-fixed: 100;
     --button-press: #F26719;
     --purple: #7381FF;
+    --light-purple : #EFE9FB;
+    --strong-purple :#5F24D3;
+    --pale-red: #F5504C;
 }
 
 *,
@@ -373,18 +376,22 @@ a {
 }
 
 .project_btn{
+    margin-top:20px;
+    margin-bottom: 20px;
     justify-content: center;
     color: var(--first-color);
     background-color: var(--purple);
     border-color: var(--purple);
     margin-right: 10px;
-    font-weight: 800;
+    font-weight: 600;
+    width:250px;
 }
 .project_btn:hover{
 
     color: var(--first-color);
     background-color: var(--white-color);
     border-color: var(--white-color);
+
 }
 .project_button_row{
     padding-top:2.3em;
@@ -399,11 +406,12 @@ a {
     font-weight: normal;
 }
 .row-section{
-    height: 1px;
-    background-color: var(--purple);
+    height: 0.5px;
+    background-color: var(--grey);
     width: 80%;
 }
 .document-show{
+    margin-right:50px;
     border-bottom: 1px solid var(--grey);
 }
 .second-row{
@@ -422,6 +430,16 @@ a {
 }
 .document-info{
     font-weight: bold;
+}
+.document-ext{
+    color: var(--strong-purple);
+    width:40px;
+    border-radius: 15px;
+    text-align: center;
+    background-color: var(--light-purple);
+}
+.btn-delete{
+    color: var(--pale-red);
 }
 @media screen and (min-width: 768px) {
     body {
