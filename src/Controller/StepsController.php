@@ -61,7 +61,7 @@ class StepsController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'steps_show', methods: ['GET'])]
+    #[Route('/{slug}', name: 'steps_show', methods: ['GET'])]
     public function show(Steps $step): Response
     {
         return $this->render('steps/show.html.twig', [

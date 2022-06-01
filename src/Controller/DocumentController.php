@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Document;
+use App\Entity\Project;
 use App\Form\DocumentType;
+use App\Repository\StepsRepository;
 use DateTime;
 use App\Repository\DocumentRepository;
 use App\Repository\ProjectRepository;
@@ -18,18 +20,30 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 #[Route('/document')]
 class DocumentController extends AbstractController
 {
-    #[Route('/', name: 'document_index', methods: ['GET'])]
-    public function index(DocumentRepository $documentRepository): Response
+    #[Route('/{project}', name: 'document_index', methods: ['GET'])]
+    public function index(DocumentRepository $documentRepository, Request $request, ProjectRepository $projectRepository): Response
     {
+
+        $project_slug = $request->get('project');
+        $project = $projectRepository->findOneBy(['slug' => $project_slug]);
+        $project_id = $project->getId();
+
         return $this->render('document/index.html.twig', [
-            'documents' => $documentRepository->findAll(),
+            'documents' => $documentRepository->findBy(['project_id' => $project_id])
         ]);
     }
 
     #[Route('/{slug}/new', name: 'document_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, ProjectRepository $projectRepository, SluggerInterface $slugger): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, ProjectRepository $projectRepository, StepsRepository $stepsRepository, SluggerInterface $slugger): Response
     {
         $project_slug = $request->get('slug');
+        $step_slug = $request->get('step');
+
+        if ($step_slug != null){
+            $step = $stepsRepository->findOneBy(['slug' => $step_slug]);
+        } else {
+            $step = null;
+        }
         $project = $projectRepository->findOneBy(['slug' => $project_slug]);
 
         $document = new Document();
@@ -45,6 +59,7 @@ class DocumentController extends AbstractController
             $document->setAuthor($user); // setting the current user to be the author
 
             $document->setProjectId($project);
+            $document->setStep($step);
 
             $file_location = $this->getParameter('projects_directory') . '/' . $project->getProjectDirectory();
 
@@ -110,14 +125,17 @@ class DocumentController extends AbstractController
     }
 
     #[Route('/{id}', name: 'document_delete', methods: ['POST'])]
-    public function delete(Request $request, Document $document, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Document $document, EntityManagerInterface $entityManager, ProjectRepository $projectRepository): Response
     {
+        $projectId = $document->getProjectId();
+        $project = $projectRepository->findOneBy(['id'=>$projectId]);
+        $projectSlug = $project->getSlug();
         if ($this->isCsrfTokenValid('delete'.$document->getId(), $request->request->get('_token'))) {
             $entityManager->remove($document);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('document_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('document_index', ['project'=>$projectSlug], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/download/{file}', name: 'document_download', methods: ['GET'])]

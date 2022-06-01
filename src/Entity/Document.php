@@ -49,6 +49,12 @@ class Document
      */
     private $path;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Steps::class, inversedBy="document")
+     *  @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     */
+    private $step;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -122,6 +128,18 @@ class Document
     public function setPath(string $path): self
     {
         $this->path = $path;
+
+        return $this;
+    }
+
+    public function getStep(): ?Steps
+    {
+        return $this->step;
+    }
+
+    public function setStep(?Steps $step): self
+    {
+        $this->step = $step;
 
         return $this;
     }

@@ -17,15 +17,19 @@ use App\Services\CursBNR;
 #[Route('/cost')]
 class CostController extends AbstractController
 {
-    #[Route('/', name: 'cost_index', methods: ['GET'])]
-    public function index(CostRepository $costRepository): Response
+    #[Route('/{project}', name: 'cost_index', methods: ['GET'])]
+    public function index(CostRepository $costRepository, Request $request, ProjectRepository $projectRepository): Response
     {
+        $projectSlug = $request->get('project');
+        $project = $projectRepository->findOneBy(['slug' => $projectSlug]);
+        $projectId = 18;
+
         return $this->render('cost/index.html.twig', [
-            'costs' => $costRepository->findAll(),
+            'costs' => $costRepository->findBy(['project' => $projectId])
         ]);
     }
 
-    #[Route('/new', name: 'cost_new', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/new', name: 'cost_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, ProjectRepository $projectRepository): Response
     {
 
@@ -148,13 +152,23 @@ class CostController extends AbstractController
     }
 
     #[Route('/{id}', name: 'cost_delete', methods: ['POST'])]
-    public function delete(Request $request, Cost $cost, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Cost $cost, EntityManagerInterface $entityManager, ProjectRepository $projectRepository): Response
     {
+
         if ($this->isCsrfTokenValid('delete'.$cost->getId(), $request->request->get('_token'))) {
+            $project = $cost->getProject();
+            $usd = $project->getCostUsd() - $cost->getUsd();
+            $ron = $project->getCostRon() - $cost->getRon();
+            $eur = $project->getCostEuro() - $cost->getEur();
+
+            $project->setCostUsd($usd);
+            $project->setCostRon($ron);
+            $project->setCostEuro($eur);
+
             $entityManager->remove($cost);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('cost_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('cost_index', ['project' => $project->getSlug()], Response::HTTP_SEE_OTHER);
     }
 }

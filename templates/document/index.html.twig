@@ -3,36 +3,51 @@
 {% block title %}Document index{% endblock %}
 
 {% block body %}
-    <h1>Document index</h1>
+    <h1>Documents of project</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Created_at</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
         {% for document in documents %}
-            <tr>
-                <td>{{ document.id }}</td>
-                <td>{{ document.name }}</td>
-                <td>{{ document.description }}</td>
-                <td>{{ document.createdAt ? document.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('document_show', {'id': document.id}) }}">show</a>
-                    <a href="{{ path('document_edit', {'id': document.id}) }}">edit</a>
-                </td>
-            </tr>
+            <div class="row document-show align-items-center">
+                <div class="col-1 d-flex justify-content-center align-items-center" >
+                    <button class ="preview-doc" data-toggle="modal" data-target="modal-.{{document.id}}">
+                        <i class='bx bxs-file bx-lg'></i>
+                    </button>
+                </div>
+                <div class="col-8 document-info">
+                    <a href="/" data-toggle="modal" data-target=".modal-{{document.id}}"  class="document-name" >{{document.name}}</a>
+                    <div class="document-ext">{{document.name|split('.',2)[1]}}</div>
+                </div>
+                <div class="col-1">
+                    <a class="document-download" href="{{ path('document_download', {'file': document.path}) }}"><i class='bx bx-down-arrow-circle  bx-md'></i></a>
+                </div>
+                <div class="col-1">
+                    <a href="/" class ="document-download" data-toggle="modal" data-target=".modal-{{document.id}}">
+                        <i class='bx bx-show bx-md'></i>
+                    </a>
+                </div>
+                <div class="col-1">
+                    {{ include('document/_delete_form.html.twig') }}
+                </div>
+
+                <div class="modal fade bd-example-modal-lg modal-{{document.id}} " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Preview document</h5>
+                                <a type="button" class="close nav_link project_link" data-dismiss="modal" aria-label="Close">
+                                    <i class='bx bx-x bx-md'></i>
+                                </a>
+                            </div>
+                            <div class="modal-body">
+                                <iframe src={{asset ('/uploads/projects/'~ document.projectid.projectDirectory ~'/' ~ document.path) }}></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% else %}
             <tr>
                 <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
-        </tbody>
-    </table>
 
 {% endblock %}

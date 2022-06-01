@@ -3,32 +3,68 @@
 {% block title %}Steps{% endblock %}
 
 {% block body %}
-    <h1>Steps</h1>
+    <div class="container-fluid">
+        <div class="row first-row mr-5">
+    <h1>{{ step.name }}</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ step.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ step.name }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ step.slug }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
+                <th>Created</th>
                 <td>{{ step.createdAt ? step.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
+    {% if step.document|length >1 %}
+        <h3>Documents in this step:</h3>
 
-    <a href="{{ path('steps_index') }}">back to list</a>
+    {% endif %}
+    {% for document in step.document %}
+        <div class="row document-show align-items-center">
+            <div class="col-1 d-flex justify-content-center align-items-center" >
+                <button class ="preview-doc" data-toggle="modal" data-target="modal-.{{document.id}}">
+                    <i class='bx bxs-file bx-lg'></i>
+                </button>
+            </div>
+            <div class="col-8 document-info">
+                <a href="/" data-toggle="modal" data-target=".modal-{{document.id}}"  class="document-name" >{{document.name}}</a>
+                <div class="document-ext">{{document.name|split('.',2)[1]}}</div>
+            </div>
+            <div class="col-1">
+                <a class="document-download" href="{{ path('document_download', {'file': document.path}) }}"><i class='bx bx-down-arrow-circle  bx-md'></i></a>
+            </div>
+            <div class="col-1">
+                <a href="/" class ="document-download" data-toggle="modal" data-target=".modal-{{document.id}}">
+                    <i class='bx bx-show bx-md'></i>
+                </a>
+            </div>
+            <div class="col-1">
+                {{ include('document/_delete_form.html.twig') }}
+            </div>
 
-    <a href="{{ path('steps_edit', {'id': step.id}) }}">edit</a>
+            <div class="modal fade bd-example-modal-lg modal-{{document.id}} " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Preview document</h5>
+                            <a type="button" class="close nav_link project_link" data-dismiss="modal" aria-label="Close">
+                                <i class='bx bx-x bx-md'></i>
+                            </a>
+                        </div>
+                        <div class="modal-body">
+                            <iframe src={{asset ('/uploads/projects/'~ step.stage.project.projectDirectory ~'/' ~ document.path) }}></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+            <a class="btn nav_link project_link project_btn rounded-pill" href="{{ path('document_new', {'slug': step.stage.project.slug, 'step':step.slug}) }}">
+                 <i class='bx bx-folder-plus bx-sm'></i>New document
+            </a>
+    <a class="nav_link project_link" href="{{ path('steps_edit', {'id': step.id}) }}">edit</a>
 
     {{ include('steps/_delete_form.html.twig') }}
+        </div>
+    </div>
 {% endblock %}

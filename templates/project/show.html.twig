@@ -29,13 +29,13 @@
                 </div>
                 <div class="row project_map project_info">
                     <div class="col">
-                        <a class='nav_link project_link' href="/">
+                        <a class='nav_link project_link' href="{{path('cost_index', {'project':project.slug})}}">
                             <i class='bx bxs-dollar-circle'></i>{{ project.costusd }} Invested
                         </a>
                     </div>
                     <div class="col">
-                        <a class='nav_link project_link' href="/">
-                            <i class='bx bxs-group'></i> Participants
+                        <a class='nav_link project_link' href="{{path('document_index', {'project':project.slug})}}">
+                            <i class='bx bxs-file'></i>{{project.documents|length}} Documents
                         </a>
                     </div>
                     {% set count = 0 %}
@@ -53,12 +53,14 @@
                 <div class="row d-flex align-content-center project_map project_button_row">
                     <div class="col-12 col-md-6 col-sm-12 d-flex justify-content-center">
                         <a class="btn nav_link project_link project_btn rounded-pill" href="{{ path('document_new', {'slug': project.slug}) }}">
-                            <i class='bx bx-folder-plus bx-sm'></i>Add new document
+                            <i class='bx bx-folder-plus bx-sm'></i>New document
+                        </a>
+                        <a href="{{ path('cost_new', {'slug': project.slug}) }}" class="btn nav_link project_link project_btn rounded-pill">
+                            <i class='bx bx-wallet bx-sm' ></i>New cost
                         </a>
                     </div>
                     <div class="col-12 col-md-6 col-sm-12 d-flex justify-content-center">
-                        <a href="{{ path('cost_new', {'slug': project.slug}) }}" class="btn nav_link project_link project_btn rounded-pill">
-                            <i class='bx bx-wallet bx-sm' ></i>Add new cost</a>
+
                     </div>
 
                 </div>
@@ -66,24 +68,33 @@
             </div>
         </div>
         <div class="row second-row">
-            <p class="project-description">{{ project.description }}</p>
+            <h3 class="project-description">{{ project.description }}</h3>
             <p class ="d-none" id="project_lat">{{project.lat}} </p>
             <p class ="d-none" id="project_lng">{{project.lng}} </p>
             <div class="row row-section"></div>
                 <div class="col-12 col-md-12 col-lg-4">
-                    <div>Stages included in this project:</div>
-                    <ol>
+                    <div class="row d-flex project-stage">
+                        <div class="col-8 project-description">Stages for this project</div>
+                        <div class="col-4">
+                            <a href="{{ path('stage_new', {'slug': project.slug}) }}" class="add-link" ><i class='bx bxs-layer-plus bx-sm'></i></a>
+                        </div>
+                    </div>
+                        <ol>
                         {% for stage in project.stage %}
 
-                            <li>{{ stage.name}}
-                                <a href="{{ path('steps_new', {'slug': stage.slug}) }}" class="d-inline text-success"><i class="fas fa-solid fa-plus"></i>Add step</a>
+                            <li>
+                                {{ stage.name}}
+                                <a href="{{ path('steps_new', {'slug': stage.slug}) }}" class="add-link"><i class="fas fa-plus-circle"></i></a>
                                 {{ include('stage/_delete_form.html.twig') }}
                             </li>
                             <ol>
                             {% for step in stage.steps %}
 
-                                <li>{{step.name}}</li>
-
+                                <li><a href="{{path('steps_show',{'slug': step.slug})}}">{{step.name}}</a>
+                                {% if step.document|length > 0 %}
+                                ({{step.document|length}} documents)
+                                {% endif %}
+                                </li>
                             {% endfor %}
                             </ol>
                         {% endfor %}
@@ -94,10 +105,13 @@
                     Section 2
                 </div>
                 <div class="col-12 col-md-12 col-lg-4">
+                    {% if project.documents|length >3 %}
+                        <p class="folder-icon">Last 3 documents of this project...</p>
+                    {% endif%}
                     {% for document in project.documents|slice(-3) %}
                         <div class="row document-show align-items-center">
                             <div class="col-2 d-flex">
-                                <i class='bx bxs-file bx-lg'></i>
+                                <i class='bx bxs-file bx-lg folder-icon'></i>
                             </div>
                             <div class="col-8 document-info">
                                 <div class="document-name">{{document.name}}</div>
@@ -109,7 +123,7 @@
                         </div>
                     {% endfor %}
                     {% if project.documents|length >3 %}
-                            <a href = "{{path('document_index')}}" class="nav_link project_link">Show more...</a>
+                            <a href = "{{path('document_index', {'project':project.slug})}}" class="show-more">Show more...</a>
                     {% endif%}
                 </div>
         </div>
@@ -121,7 +135,7 @@
         <span id="place-address" >{{project.Description}}</span><br />
     </div>
 
-    <a href="{{ path('stage_new', {'slug': project.slug}) }}" class="btn btn-secondary">Add Stage</a>
+
 
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">

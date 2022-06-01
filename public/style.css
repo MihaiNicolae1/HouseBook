@@ -20,6 +20,8 @@
     --light-purple : #EFE9FB;
     --strong-purple :#5F24D3;
     --pale-red: #F5504C;
+    --green : #2AA73E;
+    --pale-green : #E6F5E9;
 }
 
 *,
@@ -402,13 +404,14 @@ a {
 }
 
 .project-description{
-    font-size: 1.3em;
+    font-size: 1.5em;
     font-weight: normal;
 }
 .row-section{
-    height: 0.5px;
+    height: 1px;
     background-color: var(--grey);
-    width: 80%;
+    width: 90%;
+    margin-bottom: 50px;
 }
 .document-show{
     margin-right:50px;
@@ -419,14 +422,11 @@ a {
     padding-top: 1.2em;
     padding-bottom: 1.3em;
 }
-.bxs-file{
-    color: var(--grey);
-}
 .document-download{
-    color: var(--purple);
+    color: var(--first-color-light);
 }
 .document-download:hover{
-    color: var(--white-color);
+    color: var(--purple);
 }
 .document-info{
     font-weight: bold;
@@ -438,8 +438,51 @@ a {
     text-align: center;
     background-color: var(--light-purple);
 }
+.add-link{
+    color: var(--purple);
+}
+.add-link:hover{
+    color: var(--green);
+}
 .btn-delete{
+    all:unset;
+    color: var(--white-color);
+}
+.btn-delete:hover{
     color: var(--pale-red);
+}
+.project-stage{
+    align-items: center;
+}
+.stage-list{
+    align-items: center;
+}
+.show-more{
+    color: var(--strong-purple);
+    font-weight: 700;
+    text-align: center;
+}
+.show-more:hover{
+    color: var(--white-color);
+}
+.modal-content{
+    width:100%;
+    height: 100%;
+}
+.modal-dialog{
+    width: 90% !important;
+    height: 90% !important;
+}
+.modal-body iframe{
+    width: 100%;
+    height: 100%;
+}
+.preview-doc{
+    all:unset;
+    color: var(--white-color) !important;
+}
+.preview-doc:hover{
+    color: var(--purple);
 }
 @media screen and (min-width: 768px) {
     body {
@@ -478,4 +521,15 @@ a {
 }
 .bd-example-modal-lg{
     width: 100% !important;
+}
+.document-name{
+    font-weight: 800;
+    color: var(--title-color);
+}
+.document-name a:hover{
+    color: var(--purple);
+}
+.folder-icon{
+    color: var(--header-text);
+    font-weight: bold;
 }
