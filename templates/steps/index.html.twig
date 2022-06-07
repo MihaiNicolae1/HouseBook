@@ -3,37 +3,45 @@
 {% block title %}Steps index{% endblock %}
 
 {% block body %}
-    <h1>Steps index</h1>
+    <h3>Steps of "{{project.name}}"</h3>
 
     <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Slug</th>
-                <th>CreatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+        <div class="row second-row">
+            {% if steps|length >0%}
+            <ol>
+            {%endif%}
         {% for step in steps %}
-            <tr>
-                <td>{{ step.id }}</td>
-                <td>{{ step.name }}</td>
-                <td>{{ step.slug }}</td>
-                <td>{{ step.createdAt ? step.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('steps_show', {'id': step.id}) }}">show</a>
-                    <a href="{{ path('steps_edit', {'id': step.id}) }}">edit</a>
-                </td>
-            </tr>
+            <li>
+                <div class="row cost-row">
+                    <div class="col-11 cost-info d-flex">
+                        <div class="cost-wrapper d-flex align-items-center">
+                            <i class='bx bxs-info-circle'></i>{{ step.name }}
+                        </div>
+
+                        <div class="cost-wrapper d-flex align-items-center">
+                            <i class='bx bx-euro'></i>
+                        </div>
+
+                        <div class="cost-wrapper d-flex align-items-center">
+                            <i class='bx bx-dollar'></i>
+                        </div>
+                        <div class="cost-wrapper d-flex align-items-center">
+                            <i class='bx bxs-layer'></i>
+
+                        </div>
+                    </div>
+                    <div class="col-1 cost-actions d-flex align-items-center">
+                        {{ include('steps/_delete_form.html.twig') }}
+                        <a class='document-download' href="{{ path('steps_show', {'slug': project.slug}) }}"><i class='bx bx-show bx-sm'></i></a>
+                        <a class='document-download' href="{{ path('steps_edit', {'id': step.id}) }}"><i class='bx bx-edit-alt bx-sm'></i></a>
+                    </div>
+                </div>
+            </li>
         {% else %}
             <tr>
                 <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
-        </tbody>
-    </table>
+            </div>
 
-    <a href="{{ path('steps_new') }}">Create new</a>
 {% endblock %}

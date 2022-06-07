@@ -469,6 +469,20 @@ a {
     width:100%;
     height: 100%;
 }
+.cost{
+    display: inline-block;
+}
+.cost-row{
+    border-bottom: 1px solid var(--grey);
+}
+.cost-wrapper{
+    margin-right:3em;
+    width:150px;
+    font-weight: 600;
+    color: var(--header-text);
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 .modal-dialog{
     width: 90% !important;
     height: 90% !important;

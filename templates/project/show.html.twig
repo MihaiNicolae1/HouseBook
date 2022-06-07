@@ -45,7 +45,7 @@
                         {% endfor %}
                     {% endfor %}
                     <div class="col">
-                        <a class='nav_link project_link' href="/">
+                        <a class='nav_link project_link' href="{{ path('steps_index', {'project':project.slug}) }}">
                             <i class='bx bxs-layer' ></i>   {{ count }} Steps in project
                         </a>
                     </div>
@@ -92,8 +92,10 @@
 
                                 <li><a href="{{path('steps_show',{'slug': step.slug})}}">{{step.name}}</a>
                                 {% if step.document|length > 0 %}
-                                ({{step.document|length}} documents)
+                                ({{step.document|length}} documents{% if step.cost|length >0 %}, {{step.cost|length}} costs{% endif %})
                                 {% endif %}
+
+
                                 </li>
                             {% endfor %}
                             </ol>

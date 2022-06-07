@@ -45,9 +45,15 @@ class Steps
      */
     private $document;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Cost::class, mappedBy="steps")
+     */
+    private $cost;
+
     public function __construct()
     {
         $this->document = new ArrayCollection();
+        $this->cost = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,6 +133,36 @@ class Steps
             // set the owning side to null (unless already changed)
             if ($document->getStep() === $this) {
                 $document->setStep(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Cost[]
+     */
+    public function getCost(): Collection
+    {
+        return $this->cost;
+    }
+
+    public function addCost(Cost $cost): self
+    {
+        if (!$this->cost->contains($cost)) {
+            $this->cost[] = $cost;
+            $cost->setSteps($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCost(Cost $cost): self
+    {
+        if ($this->cost->removeElement($cost)) {
+            // set the owning side to null (unless already changed)
+            if ($cost->getSteps() === $this) {
+                $cost->setSteps(null);
             }
         }
 

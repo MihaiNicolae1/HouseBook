@@ -6,6 +6,7 @@ use App\Entity\Cost;
 use App\Form\CostType;
 use App\Repository\CostRepository;
 use App\Repository\ProjectRepository;
+use App\Repository\StepsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,7 @@ use App\Services\CursBNR;
 #[Route('/cost')]
 class CostController extends AbstractController
 {
-    #[Route('/{project}', name: 'cost_index', methods: ['GET'])]
+    #[Route('/all/{project}', name: 'cost_index', methods: ['GET'])]
     public function index(CostRepository $costRepository, Request $request, ProjectRepository $projectRepository): Response
     {
         $projectSlug = $request->get('project');
@@ -25,13 +26,17 @@ class CostController extends AbstractController
         $projectId = 18;
 
         return $this->render('cost/index.html.twig', [
-            'costs' => $costRepository->findBy(['project' => $projectId])
+            'costs' => $costRepository->findBy(['project' => $projectId]),
+            'project' => $project
         ]);
     }
 
-    #[Route('/{slug}/new', name: 'cost_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, ProjectRepository $projectRepository): Response
+    #[Route('/new/{slug}', name: 'cost_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, StepsRepository $stepsRepository, EntityManagerInterface $entityManager, ProjectRepository $projectRepository): Response
     {
+
+        $stepSlug = $request->get('step');
+        $step = $stepsRepository->findOneBy(['slug'=>$stepSlug]);
 
         $slug = $request->get('slug');
         $project = $projectRepository->findOneBy(['slug' => $slug]);
@@ -44,7 +49,9 @@ class CostController extends AbstractController
 
         
         if ($form->isSubmitted() && $form->isValid()) {
-
+            if (isset($step)){
+                $cost->setSteps($step);
+            }
             $currencyChoice = $form->get("currencyChoice")->getData();
              if($currencyChoice == "EUR"){
                     //Getting the EUR value and setting it 
@@ -125,7 +132,7 @@ class CostController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'cost_show', methods: ['GET'])]
+    #[Route('/show/{id}', name: 'cost_show', methods: ['GET'])]
     public function show(Cost $cost): Response
     {
         return $this->render('cost/show.html.twig', [
@@ -133,7 +140,7 @@ class CostController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'cost_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id}', name: 'cost_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Cost $cost, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CostType::class, $cost);
@@ -151,7 +158,7 @@ class CostController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'cost_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'cost_delete', methods: ['POST'])]
     public function delete(Request $request, Cost $cost, EntityManagerInterface $entityManager, ProjectRepository $projectRepository): Response
     {
 

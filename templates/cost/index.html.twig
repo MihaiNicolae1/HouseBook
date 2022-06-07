@@ -3,35 +3,66 @@
 {% block title %}Cost index{% endblock %}
 
 {% block body %}
-    <h1>Cost index</h1>
+    <h3>Costs for "{{project.name}}" </h3>
 
     <table class="table">
-        <thead>
-            <tr>
-                <th>Description</th>
-                <th>Eur</th>
-                <th>Usd</th>
-                <th>Ron</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+        <div class="row second-row">
+            {% if costs|length >0%}
+            <ol>
+            {%endif%}
         {% for cost in costs %}
-            <tr>
-                <td>{{ cost.description }}</td>
-                <td>{{ cost.eur }}</td>
-                <td>{{ cost.usd }}</td>
-                <td>{{ cost.ron }}</td>
-                <td>
-                    <a href="{{ path('cost_show', {'id': cost.id}) }}">show</a>
-                    <a href="{{ path('cost_edit', {'id': cost.id}) }}">edit</a>
-                </td>
-            </tr>
+            <li>
+            <div class="row cost-row">
+                <div class="col-11 cost-info d-flex">
+                    <div class="cost-wrapper d-flex align-items-center">
+                        <i class='bx bxs-info-circle'></i>{{ cost.description }}
+                    </div>
+
+                    <div class="cost-wrapper d-flex align-items-center">
+                        <i class='bx bx-euro'></i>{{ cost.eur }}
+                    </div>
+
+                    <div class="cost-wrapper d-flex align-items-center">
+                        <i class='bx bx-dollar'></i>{{ cost.usd }}
+                    </div>
+
+                    <div class="cost-wrapper d-flex align-items-center">
+                        RON {{ cost.ron }}
+                    </div>
+                    <div class="cost-wrapper d-flex align-items-center">
+                        <i class='bx bxs-layer'></i>
+                        {%if cost.steps|length >0 %}
+                            {{cost.steps.name}}
+                        {%else%}
+                            No step assigned
+                        {%endif%}
+                    </div>
+                </div>
+                <div class="col-1 cost-actions d-flex align-items-center">
+                    {{ include('cost/_delete_form.html.twig') }}
+                    <a class='document-download' href="{{ path('cost_show', {'id': cost.id}) }}"><i class='bx bx-show bx-sm'></i></a>
+                    <a class='document-download' href="{{ path('cost_edit', {'id': cost.id}) }}"><i class='bx bx-edit-alt bx-sm'></i></a>
+                </div>
+            </div>
+            </li>
         {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
+            <h5>No records found</h5>
         {% endfor %}
-        </tbody>
-    </table>
+            </ol>
+        </div>
+        <div class="row second-row">
+            <div class="cost-wrapper d-flex align-items-center">
+                <i class='bx bxs-wallet'></i>Total
+            </div>
+            <div class="cost-wrapper d-flex align-items-center">
+                <i class='bx bx-euro'></i>{{project.costEuro}}
+            </div>
+            <div class="cost-wrapper d-flex align-items-center">
+                <i class='bx bx-dollar'></i>{{project.costUsd}}
+            </div>
+            <div class="cost-wrapper d-flex align-items-center">
+                RON {{project.costRon}}
+            </div>
+        </div>
+
 {% endblock %}

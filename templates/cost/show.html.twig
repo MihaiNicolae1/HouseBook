@@ -34,7 +34,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('cost_index') }}">back to list</a>
+    <a href="{{ path('cost_index',{'project':cost.project.slug}) }}">back to list</a>
 
     <a href="{{ path('cost_edit', {'id': cost.id}) }}">edit</a>
 

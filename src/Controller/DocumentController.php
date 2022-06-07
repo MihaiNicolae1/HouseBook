@@ -14,13 +14,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('/document')]
 class DocumentController extends AbstractController
 {
-    #[Route('/{project}', name: 'document_index', methods: ['GET'])]
+    #[Route('/all/{project}', name: 'document_index', methods: ['GET'])]
     public function index(DocumentRepository $documentRepository, Request $request, ProjectRepository $projectRepository): Response
     {
 
@@ -32,8 +33,17 @@ class DocumentController extends AbstractController
             'documents' => $documentRepository->findBy(['project_id' => $project_id])
         ]);
     }
+    #[Route('/user', name: 'document_user', methods: ['GET'])]
+    public function user(DocumentRepository $documentRepository, Request $request, ProjectRepository $projectRepository, UserInterface $user): Response
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();//getting the current user
+        $documents = $documentRepository->findBy(['author'=>$user]);
 
-    #[Route('/{slug}/new', name: 'document_new', methods: ['GET', 'POST'])]
+        return $this->render('document/index.html.twig', [
+            'documents' => $documents
+        ]);
+    }
+    #[Route('/new/{slug}', name: 'document_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, ProjectRepository $projectRepository, StepsRepository $stepsRepository, SluggerInterface $slugger): Response
     {
         $project_slug = $request->get('slug');
@@ -98,7 +108,7 @@ class DocumentController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'document_show', methods: ['GET'])]
+    #[Route('/show/{id}', name: 'document_show', methods: ['GET'])]
     public function show(Document $document): Response
     {
         return $this->render('document/show.html.twig', [
@@ -106,7 +116,8 @@ class DocumentController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'document_edit', methods: ['GET', 'POST'])]
+
+    #[Route('/edit/{id}', name: 'document_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Document $document, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(DocumentType::class, $document);
@@ -124,7 +135,7 @@ class DocumentController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'document_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'document_delete', methods: ['POST'])]
     public function delete(Request $request, Document $document, EntityManagerInterface $entityManager, ProjectRepository $projectRepository): Response
     {
         $projectId = $document->getProjectId();

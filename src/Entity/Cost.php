@@ -47,6 +47,11 @@ class Cost
      */
     private $ron;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Steps::class, inversedBy="cost")
+     */
+    private $steps;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -118,6 +123,18 @@ class Cost
     public function setRon(?float $ron): self
     {
         $this->ron = $ron;
+
+        return $this;
+    }
+
+    public function getSteps(): ?Steps
+    {
+        return $this->steps;
+    }
+
+    public function setSteps(?Steps $steps): self
+    {
+        $this->steps = $steps;
 
         return $this;
     }

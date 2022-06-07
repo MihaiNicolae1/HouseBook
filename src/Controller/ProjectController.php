@@ -34,10 +34,13 @@ use function App\Services\createSlug;
 class ProjectController extends AbstractController
 {
     #[Route('/', name: 'project_index', methods: ['GET'])]
-    public function index(ProjectRepository $projectRepository): Response
+    public function index(ProjectRepository $projectRepository,UserInterface $user): Response
     {
+        $user = $this->get('security.token_storage')->getToken()->getUser();//getting the current user
+        $projects = $projectRepository->findBy(['user'=>$user]);
+
         return $this->render('project/index.html.twig', [
-            'projects' => $projectRepository->findAll(),
+            'projects' =>  $projects,
         ]);
         
     }
@@ -106,7 +109,7 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'project_show', methods: ['GET'])]
+    #[Route('/show/{slug}', name: 'project_show', methods: ['GET'])]
     public function show(Project $project, StageRepository $stageRepository): Response
     {
         
@@ -116,7 +119,7 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/edit', name: 'project_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{slug}', name: 'project_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Project $project, EntityManagerInterface $entityManager, ProjectRepository $projectRepository): Response
     {
         $form = $this->createForm(ProjectType::class, $project);
@@ -147,7 +150,7 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{slug}', name: 'project_delete', methods: ['GET','POST'])]
+    #[Route('/delete/{slug}/', name: 'project_delete', methods: ['GET','POST'])]
     public function delete(Request $request, Project $project, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$project->getSlug(), $request->request->get('_token'))) {

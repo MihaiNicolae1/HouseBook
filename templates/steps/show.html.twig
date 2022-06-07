@@ -62,6 +62,9 @@
             <a class="btn nav_link project_link project_btn rounded-pill" href="{{ path('document_new', {'slug': step.stage.project.slug, 'step':step.slug}) }}">
                  <i class='bx bx-folder-plus bx-sm'></i>New document
             </a>
+            <a href="{{ path('cost_new', {'slug': step.stage.project.slug, 'step':step.slug}) }}" class="btn nav_link project_link project_btn rounded-pill">
+                <i class='bx bx-wallet bx-sm' ></i>New cost
+            </a>
     <a class="nav_link project_link" href="{{ path('steps_edit', {'id': step.id}) }}">edit</a>
 
     {{ include('steps/_delete_form.html.twig') }}

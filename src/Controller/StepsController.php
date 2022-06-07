@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Stage;
+use App\Repository\ProjectRepository;
 use DateTime;
 use App\Entity\Steps;
 use App\Form\StepsType;
@@ -18,11 +20,20 @@ use function App\Services\createSlug;
 #[Route('/steps')]
 class StepsController extends AbstractController
 {
-    #[Route('/', name: 'steps_index', methods: ['GET'])]
-    public function index(StepsRepository $stepsRepository): Response
+    #[Route('/all/{project}', name: 'steps_index', methods: ['GET'])]
+    public function index(StepsRepository $stepsRepository, ProjectRepository $projectRepository,StageRepository $stageRepository, Request $request): Response
     {
+        $slug = $request->get('project');
+        $project = $projectRepository->findOneBy(['slug'    =>  $slug]);
+        $stages = $project->getStage();
+        foreach ($stages as $stage){
+            foreach($stage->getSteps() as $step){
+                $steps[] = $step;
+            }
+        }
         return $this->render('steps/index.html.twig', [
-            'steps' => $stepsRepository->findAll(),
+            'steps' => $steps,
+            'project' => $project
         ]);
     }
 
@@ -61,7 +72,7 @@ class StepsController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'steps_show', methods: ['GET'])]
+    #[Route('/{slug}/show', name: 'steps_show', methods: ['GET'])]
     public function show(Steps $step): Response
     {
         return $this->render('steps/show.html.twig', [
@@ -74,6 +85,7 @@ class StepsController extends AbstractController
     {
         $form = $this->createForm(StepsType::class, $step);
         $form->handleRequest($request);
+        $projectSlug = $step->getStage()->getProject()->getSlug();
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -82,7 +94,7 @@ class StepsController extends AbstractController
             $step->setSlug($slug);
             $entityManager->flush();
 
-            return $this->redirectToRoute('steps_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('steps_index', ['project'=>$projectSlug], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('steps/edit.html.twig', [
@@ -91,7 +103,7 @@ class StepsController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'steps_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'steps_delete', methods: ['POST'])]
     public function delete(Request $request, Steps $step, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$step->getId(), $request->request->get('_token'))) {
