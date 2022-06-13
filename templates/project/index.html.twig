@@ -8,11 +8,11 @@
     <div class="row mb-5 cstm-height-card">
     {% for project in projects %}
 
-		    <div class="d-flex justify-content-between col-md-4 pb-5 rounded">
+		    <div class="project-card d-flex justify-content-between col-md-4 pb-5">
 		    	<div class="card">
                 <a href="{{ path('project_show', {'slug': project.slug}) }}">
                         <div class="d-flex justify-content-center">
-                            <img src={{asset ('/uploads/projects/'~ project.projectDirectory ~'/'~ project.profilePicture) }} class="card-img" alt="...">
+                            <img src='{{asset ('/uploads/projects/'~ project.projectDirectory ~'/'~ project.profilePicture) }}' class="card-img" alt="...">
                         </div>
 		    			<div class="card-body">
 		    			    <h5 class="card-title">{{project.name}}</h5>

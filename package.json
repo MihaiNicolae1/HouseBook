@@ -1,0 +1,13 @@
+{
+  "name": "HouseBook",
+  "lockfileVersion": 2,
+  "requires": true,
+  "packages": {},
+  "devDependencies": {
+    "@hotwired/stimulus": "^3.0.0",
+    "@symfony/ux-chartjs": "file:vendor/symfony/ux-chartjs/Resources/assets",
+    "@symfony/webpack-encore": "^2.1.0",
+    "chart.js": "^3.4.1",
+    "webpack-notifier": "^1.15.0"
+  }
+}

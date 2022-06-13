@@ -472,6 +472,15 @@ a {
 .cost{
     display: inline-block;
 }
+.card{
+    margin-right: 10px;
+}
+.card-img{
+    border-radius: 40px;
+}
+.card{
+    border-radius:40px;
+}
 .cost-row{
     border-bottom: 1px solid var(--grey);
 }
@@ -503,7 +512,9 @@ a {
         margin: calc(var(--header-height) + 1rem) 0 0 0;
         padding-left: calc(var(--nav-width) + 2rem)
     }
-
+    .home-text{
+        font-size: 4em;
+    }
     .header {
         height: calc(var(--header-height) + 1rem);
         padding: 0 2rem 0 calc(var(--nav-width) + 2rem)
@@ -546,4 +557,56 @@ a {
 .folder-icon{
     color: var(--header-text);
     font-weight: bold;
+}
+.home-image {
+    height: 50%;
+    background: rgba(0, 0, 0, 0.3) url('logo/home.jpg') no-repeat center;
+    background-size: cover;
+    background-blend-mode: multiply;
+    align-items: center;
+
+}
+.contact-form{
+    margin-top:80px;
+    border-radius:40px;
+}
+.home-info{
+    font-weight: 700;
+    font-size: 1.5em;
+    color: var(--title-color);
+}
+.home-logo{
+    font-size: 3em;
+    color: var(--white-color);
+    font-weight: 700;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+.home-text{
+    color:var(--first-color);
+    font-weight: bolder;
+    font-size: 2em;
+    text-align: center;
+}
+.home-buttons{
+    justify-content: center;
+}
+.home-link{
+    color: var(--first-color);
+    border-color: var(--first-color);
+    border-radius: 30px;
+    width: 200px;
+    margin-left:10px;
+}
+.home-link:hover{
+    color: var(--white-color);
+    border-color: var(--white-color);
+}
+.chart-info{
+    padding-left: 0.7em;
+    text-align: center;
+    padding-bottom: 1em;
+}
+.chart-projects{
+    margin-top: 1.7em;
 }

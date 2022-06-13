@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}HouseBook | Contact Us{% endblock %}
+
+{% block body %}
+    <div class="bg-white p-5 contact-form">
+        <h3>Contact us!</h3>
+        <h6>We will respond to you as soon as possible!</h6>
+        <div class="form-group">
+            {{ form_start(our_form) }}
+            {{ form_row(our_form.fullName, {'attr': {'class': 'form-control'}}) }}
+
+
+        </div>
+        <div class="form-group">
+            {{ form_row(our_form.email, {'attr': {'class': 'form-control'}}) }}
+
+        </div>
+        <div class="form-group">
+            {{ form_row(our_form.message, {'attr': {'class': 'form-control'}}) }}
+
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Send" class="btn project_btn py-3 px-5">
+        </div>
+        {{ form_end(our_form) }}
+    </div>
+
+    </div>
+{% endblock %}

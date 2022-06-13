@@ -7,6 +7,7 @@ use App\Form\CostType;
 use App\Repository\CostRepository;
 use App\Repository\ProjectRepository;
 use App\Repository\StepsRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,6 +39,8 @@ class CostController extends AbstractController
         $stepSlug = $request->get('step');
         $step = $stepsRepository->findOneBy(['slug'=>$stepSlug]);
 
+
+
         $slug = $request->get('slug');
         $project = $projectRepository->findOneBy(['slug' => $slug]);
         $curs = new CursBNR("https://www.bnr.ro/nbrfxrates.xml");
@@ -52,6 +55,9 @@ class CostController extends AbstractController
             if (isset($step)){
                 $cost->setSteps($step);
             }
+            $date = new DateTime();
+            $cost->setCreatedAt($date);
+
             $currencyChoice = $form->get("currencyChoice")->getData();
              if($currencyChoice == "EUR"){
                     //Getting the EUR value and setting it 

@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Housebook | Stats{% endblock %}
+
+{% block body %}
+
+
+
+    <div class="first-row">
+        <select id="chart-choice" onchange="generateChart()">
+            <option value="costs-month">Costs this year by month</option>
+            <option value="costs-year">Costs by years</option>
+        </select>
+        <div class="chart-container" style="position: relative; width:80%">
+            <canvas id="cost-chart"></canvas>
+        </div>
+    </div>
+    <script>
+        const monthsLabels = {{months|json_encode()|raw}};
+
+        const costMonthData = {
+            labels: monthsLabels,
+            datasets: [{
+                label: 'Costs by month',
+                backgroundColor: 'rgb(115, 129, 255, 0.3)',
+                borderColor: 'rgb(115, 129, 255)',
+                borderWidth: 2,
+                borderRadius: Number.MAX_VALUE,
+                data: {{costs|json_encode()|raw}},
+            }]
+        };
+        const costMonthConfig = {
+            type: 'bar',
+            data: costMonthData,
+            options: {
+                responsive: true,
+                autoPadding : true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Costs by project',
+                    }
+                }
+            }
+        };
+    </script>
+
+    <script>
+        const yearsLabels = {{months|json_encode()|raw}};
+
+        const costYearData = {
+            labels: yearsLabels,
+            datasets: [{
+                label: 'Costs by month',
+                backgroundColor: 'rgb(242, 103, 25, 0.3)',
+                borderColor: 'rgb(242, 103, 25)',
+                borderWidth: 2,
+                borderRadius: Number.MAX_VALUE,
+                data: {{costs|json_encode()|raw}},
+            }]
+        };
+        const costYearConfig = {
+            type: 'bar',
+            data: costYearData,
+            options: {
+                responsive: true,
+                autoPadding : true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Costs by project',
+                    }
+                }
+            }
+        };
+    </script>
+    <script>
+        function generateChart(){
+            const select = document.getElementById('chart-choice');
+            let x = select.value;
+            if (x === 'costs-month'){
+                const costMonthChart = new Chart(
+                    document.getElementById('cost-chart'),
+                    costMonthConfig
+                );
+            }
+            if(x === 'costs-year'){
+                const costMonthChart = new Chart(
+                    document.getElementById('cost-chart'),
+                    costYearConfig
+                )
+            }
+        }
+        $('document').ready(function() {
+            generateChart();
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Housebook | Stats{% endblock %}
+
+{% block body %}
+
+<div class="row first-row chart-info">
+    <div class="col-12 col-sm-4 d-flex justify-content-center">
+        <div class="chart-container" style="position: relative;">
+            <canvas id="cost-chart"></canvas>
+        </div>
+    </div>
+    <div class="col-12 col-sm-4 d-flex justify-content-center">
+        <div class="chart-container" style="position: relative;">
+            <canvas id="doc-chart"></canvas>
+        </div>
+    </div>
+    <div class="col-12 col-sm-4 d-flex justify-content-center">
+        <div class="chart-container" style="position: relative;">
+            <canvas id="step-chart"></canvas>
+        </div>
+    </div>
+</div>
+<div class="row first-row chart-projects">
+    <h3>Stats for each project</h3>
+    {% for project in projects %}
+        <p> ~ {{project.name}}<a href="{{path('chart_project', {'project' : project.slug})}}"><i class="bx bx-bar-chart-alt-2 nav_icon"></i>See stats</a></p>
+    {% endfor %}
+
+</div>
+<script>
+        const labels = {{projectsName|json_encode()|raw}};
+
+        const costdata = {
+            labels: labels,
+            datasets: [{
+                label: 'Costs of the projects',
+                backgroundColor: {{projectsColors|json_encode()|raw}},
+                data: {{projectsCosts|json_encode()|raw}},
+            }]
+        };
+        const costconfig = {
+            type: 'polarArea',
+            data: costdata,
+            options: {
+                responsive: true,
+                autoPadding : true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Costs by project',
+                    }
+                }
+            }
+        };
+</script>
+<script>
+        const doclabels = {{projectsName|json_encode()|raw}}
+        const docdata = {
+            labels: doclabels,
+            datasets: [
+                {
+                    label: 'Documents by project',
+                    data: {{projectsDocs|json_encode()|raw}},
+                    backgroundColor: {{projectsColors|json_encode()|raw}},
+                }
+            ]
+        };
+        const docconfig = {
+            type: 'pie',
+            data: docdata,
+            options: {
+                responsive: true,
+                autoPadding : true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Documents by project'
+                    }
+                }
+            },
+        };
+
+    </script>
+    <script>
+        const steplabels = {{projectsName|json_encode()|raw}}
+        const stepdata = {
+            labels: steplabels,
+            datasets: [
+                {
+                    label: 'Steps by project',
+                    data: {{projectsSteps|json_encode()|raw}},
+                    backgroundColor: {{projectsColors|json_encode()|raw}},
+                }
+            ]
+        };
+        const stepconfig = {
+            type: 'doughnut',
+            data: stepdata,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Steps by project'
+                    }
+                }
+            },
+        };
+    </script>
+    <script>
+        const costChart = new Chart(
+            document.getElementById('cost-chart'),
+            costconfig
+        );
+        const docChart = new Chart(
+            document.getElementById('doc-chart'),
+            docconfig
+        );
+        const stepChart = new Chart(
+            document.getElementById('step-chart'),
+            stepconfig
+        );
+    </script>
+
+{% endblock %}
