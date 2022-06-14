@@ -610,3 +610,11 @@ a {
 .chart-projects{
     margin-top: 1.7em;
 }
+.form-select{
+    width: 300px;
+}
+.row-select{
+
+    padding-top: 2em;
+    padding-left: 2em;
+}

@@ -4,14 +4,16 @@
 
 {% block body %}
 
-
-
-    <div class="first-row" onload="chartTracker()">
-        <select id="chart-choice">
-            <option value="month">Costs this year by month</option>
-            <option value="year">Costs by years</option>
-        </select>
-        <div class="chart-container" style="position: relative; width:80%">
+    <div class="row first-row d-flex justify-content-center">
+        <div class="row row-select">
+            <select class='form-select' id="chart-choice">
+                <option value="costmonth">Costs this year by month</option>
+                <option value="costyear">Costs by year</option>
+                <option value="docmonth">Docs this year by month</option>
+                <option value="docyear">Docs by year</option>
+            </select>
+        </div>
+        <div class="row chart-container" style="position: relative; min-width:400px; max-width: 1100px">
             <canvas id="cost-chart"></canvas>
         </div>
     </div>
@@ -22,8 +24,8 @@
             labels: chartLabels,
             datasets: [{
                 label: 'Costs by month',
-                backgroundColor: 'rgb(242, 103, 25, 0.3)',
-                borderColor: 'rgb(242, 103, 25)',
+                backgroundColor: 'rgb(115, 129, 255,0.3)',
+                borderColor: 'rgb(115, 129, 255)',
                 borderWidth: 2,
                 borderRadius: Number.MAX_VALUE,
                 data: {{monthCosts|json_encode()|raw}},
@@ -41,7 +43,7 @@
                     },
                     title: {
                         display: true,
-                        text: 'Costs by project',
+                        text: 'Costs in EURO',
                     }
                 }
             }
@@ -61,15 +63,26 @@
             const chartChoice = document.getElementById('chart-choice');
             chartChoice.addEventListener('change',chartTracker);
             function  chartTracker(){
-                if(chartChoice.value === 'year'){
-                    costChart.data.datasets[0].data = {{test|json_encode()|raw}};
-                    costChart.data.datasets[0].label = 'Costs by year'
-                    costChart.config.options.plugins.title.text = 'text1';
-                } else if (chartChoice.value ==='month'){
+                if(chartChoice.value === 'costyear'){
+                    costChart.data.datasets[0].data = {{yearCosts|json_encode()|raw}};
+                    costChart.data.datasets[0].label = 'Costs by year';
+                    costChart.data.labels = {{years|json_encode()|raw}};
+                } else if (chartChoice.value ==='costmonth'){
                     costChart.data.datasets[0].data = {{monthCosts|json_encode()|raw}};
-                    costChart.data.datasets[0].label = 'Costs this year by month'
-                    costChart.config.options.plugins.title.text = 'text2';
+                    costChart.data.datasets[0].label = 'Costs this year by month';
+                    costChart.data.labels = {{months|json_encode()|raw}};
+                } else if (chartChoice.value ==='docyear'){
+                    costChart.data.datasets[0].data = {{docyearCosts|json_encode()|raw}};
+                    costChart.data.datasets[0].label = 'Docs by year';
+                    costChart.data.labels = {{docyears|json_encode()|raw}};
+                    costChart.config.options.plugins.title.text = 'Number of documents';
+                } else if (chartChoice.value ==='docmonth'){
+                    costChart.data.datasets[0].data = {{docmonthCosts|json_encode()|raw}};
+                    costChart.data.datasets[0].label = 'Docs this year by month';
+                    costChart.data.labels = {{docmonths|json_encode()|raw}};
+                    costChart.config.options.plugins.title.text = 'Number of documents';
                 }
+
                 costChart.update();
             }
     </script>

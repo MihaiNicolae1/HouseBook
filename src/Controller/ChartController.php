@@ -45,7 +45,9 @@ class ChartController extends AbstractController
         $projectSlug = $request->get('project');
         $project = $projectRepository->findOneBy(['slug'=>$projectSlug]);
         $costs = $project->getCosts();
-        $costsMonth = [
+        $documents = $project->getDocuments();
+        $costsYear = $documentYear = array();
+        $costsMonth = $documentMonth = [
             'January'=>0,
             'February'=>0,
             'March'=>0,
@@ -61,14 +63,38 @@ class ChartController extends AbstractController
             ];
 
         foreach($costs as $cost){
-            $month = date('F',$cost->getCreatedAt()->getTimestamp());
-            $costsMonth[$month] += $cost->getEur();
+            $year = date('Y',$cost->getCreatedAt()->getTimestamp());
+            $costsYear[$year] = 0;
+        }
+        foreach($documents as $document){
+            $year = date('Y',$document->getCreatedAt()->getTimestamp());
+            $documentYear[$year] = 0;
         }
 
+        foreach($costs as $cost){
+            $month = date('F',$cost->getCreatedAt()->getTimestamp());
+            $year = date('Y',$cost->getCreatedAt()->getTimestamp());
+            if($year === date('Y'))
+                $costsMonth[$month] += $cost->getEur();
+            $costsYear[$year] += $cost->getEur();
+        }
+        foreach($documents as $document){
+            $month = date('F',$document->getCreatedAt()->getTimestamp());
+            $year = date('Y',$document->getCreatedAt()->getTimestamp());
+            if($year === date('Y'))
+                $documentMonth[$month] += 1;
+            $documentYear[$year] += 1;
+        }
         return $this->render('chart/project.html.twig',[
             'months'=>array_keys($costsMonth),
             'monthCosts' => array_values($costsMonth),
-            'test' =>[1,2,3,4]
+            'years' =>array_keys($costsYear),
+            'yearCosts' => array_values($costsYear),
+            'docmonths'=>array_keys($documentMonth),
+            'docmonthCosts' => array_values($documentMonth),
+            'docyears' =>array_keys($documentYear),
+            'docyearCosts' => array_values($documentYear),
+
         ]);
 
     }
