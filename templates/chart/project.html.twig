@@ -6,65 +6,32 @@
 
 
 
-    <div class="first-row">
-        <select id="chart-choice" onchange="generateChart()">
-            <option value="costs-month">Costs this year by month</option>
-            <option value="costs-year">Costs by years</option>
+    <div class="first-row" onload="chartTracker()">
+        <select id="chart-choice">
+            <option value="month">Costs this year by month</option>
+            <option value="year">Costs by years</option>
         </select>
         <div class="chart-container" style="position: relative; width:80%">
             <canvas id="cost-chart"></canvas>
         </div>
     </div>
     <script>
-        const monthsLabels = {{months|json_encode()|raw}};
+        const chartLabels = {{months|json_encode()|raw}};
 
-        const costMonthData = {
-            labels: monthsLabels,
-            datasets: [{
-                label: 'Costs by month',
-                backgroundColor: 'rgb(115, 129, 255, 0.3)',
-                borderColor: 'rgb(115, 129, 255)',
-                borderWidth: 2,
-                borderRadius: Number.MAX_VALUE,
-                data: {{costs|json_encode()|raw}},
-            }]
-        };
-        const costMonthConfig = {
-            type: 'bar',
-            data: costMonthData,
-            options: {
-                responsive: true,
-                autoPadding : true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Costs by project',
-                    }
-                }
-            }
-        };
-    </script>
-
-    <script>
-        const yearsLabels = {{months|json_encode()|raw}};
-
-        const costYearData = {
-            labels: yearsLabels,
+        const chartData = {
+            labels: chartLabels,
             datasets: [{
                 label: 'Costs by month',
                 backgroundColor: 'rgb(242, 103, 25, 0.3)',
                 borderColor: 'rgb(242, 103, 25)',
                 borderWidth: 2,
                 borderRadius: Number.MAX_VALUE,
-                data: {{costs|json_encode()|raw}},
+                data: {{monthCosts|json_encode()|raw}},
             }]
         };
-        const costYearConfig = {
+        const chartConfig = {
             type: 'bar',
-            data: costYearData,
+            data: chartData,
             options: {
                 responsive: true,
                 autoPadding : true,
@@ -81,24 +48,29 @@
         };
     </script>
     <script>
-        function generateChart(){
+
             const select = document.getElementById('chart-choice');
-            let x = select.value;
-            if (x === 'costs-month'){
-                const costMonthChart = new Chart(
-                    document.getElementById('cost-chart'),
-                    costMonthConfig
-                );
+            const canvas = document.getElementById('cost-chart');
+            const context = document.getElementById("cost-chart").getContext('2d');
+
+            const costChart = new Chart(
+                canvas,
+                chartConfig
+            );
+
+            const chartChoice = document.getElementById('chart-choice');
+            chartChoice.addEventListener('change',chartTracker);
+            function  chartTracker(){
+                if(chartChoice.value === 'year'){
+                    costChart.data.datasets[0].data = {{test|json_encode()|raw}};
+                    costChart.data.datasets[0].label = 'Costs by year'
+                    costChart.config.options.plugins.title.text = 'text1';
+                } else if (chartChoice.value ==='month'){
+                    costChart.data.datasets[0].data = {{monthCosts|json_encode()|raw}};
+                    costChart.data.datasets[0].label = 'Costs this year by month'
+                    costChart.config.options.plugins.title.text = 'text2';
+                }
+                costChart.update();
             }
-            if(x === 'costs-year'){
-                const costMonthChart = new Chart(
-                    document.getElementById('cost-chart'),
-                    costYearConfig
-                )
-            }
-        }
-        $('document').ready(function() {
-            generateChart();
-        });
     </script>
 {% endblock %}

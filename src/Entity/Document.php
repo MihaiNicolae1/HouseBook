@@ -51,7 +51,7 @@ class Document
 
     /**
      * @ORM\ManyToOne(targetEntity=Steps::class, inversedBy="document")
-     *  @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     *  @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     private $step;
 

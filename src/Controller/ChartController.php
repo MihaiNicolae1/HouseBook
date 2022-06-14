@@ -67,7 +67,8 @@ class ChartController extends AbstractController
 
         return $this->render('chart/project.html.twig',[
             'months'=>array_keys($costsMonth),
-            'costs' => array_values($costsMonth)
+            'monthCosts' => array_values($costsMonth),
+            'test' =>[1,2,3,4]
         ]);
 
     }
