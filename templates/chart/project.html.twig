@@ -67,10 +67,12 @@
                     costChart.data.datasets[0].data = {{yearCosts|json_encode()|raw}};
                     costChart.data.datasets[0].label = 'Costs by year';
                     costChart.data.labels = {{years|json_encode()|raw}};
+                    costChart.config.options.plugins.title.text = 'Costs in euro';
                 } else if (chartChoice.value ==='costmonth'){
                     costChart.data.datasets[0].data = {{monthCosts|json_encode()|raw}};
                     costChart.data.datasets[0].label = 'Costs this year by month';
                     costChart.data.labels = {{months|json_encode()|raw}};
+                    costChart.config.options.plugins.title.text = 'Costs in euro';
                 } else if (chartChoice.value ==='docyear'){
                     costChart.data.datasets[0].data = {{docyearCosts|json_encode()|raw}};
                     costChart.data.datasets[0].label = 'Docs by year';

@@ -38,3 +38,7 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/user, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/project, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/cost, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/chart, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/document, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/stage, roles: IS_AUTHENTICATED_FULLY }

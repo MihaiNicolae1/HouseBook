@@ -24,7 +24,7 @@ class CostController extends AbstractController
     {
         $projectSlug = $request->get('project');
         $project = $projectRepository->findOneBy(['slug' => $projectSlug]);
-        $projectId = 18;
+        $projectId = $project->getId();
 
         return $this->render('cost/index.html.twig', [
             'costs' => $costRepository->findBy(['project' => $projectId]),
