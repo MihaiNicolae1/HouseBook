@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\Stage;
+use App\Repository\CostRepository;
 use App\Repository\ProjectRepository;
 use DateTime;
 use App\Entity\Steps;
@@ -73,10 +74,13 @@ class StepsController extends AbstractController
     }
 
     #[Route('/{slug}/show', name: 'steps_show', methods: ['GET'])]
-    public function show(Steps $step): Response
+    public function show(Steps $step, CostRepository $costRepository): Response
     {
+        $costs = $costRepository->findBy(['steps'=>$step->getId()]);
+
         return $this->render('steps/show.html.twig', [
             'step' => $step,
+            'costs'=>  $costs
         ]);
     }
 

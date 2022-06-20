@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container-fluid">
-        <div class="row first-row mr-5">
+        <div class="row first-row mr-5 step-row">
     <h1>{{ step.name }}</h1>
 
     <table class="table">
@@ -65,9 +65,48 @@
             <a href="{{ path('cost_new', {'slug': step.stage.project.slug, 'step':step.slug}) }}" class="btn nav_link project_link project_btn rounded-pill">
                 <i class='bx bx-wallet bx-sm' ></i>New cost
             </a>
+
     <a class="nav_link project_link" href="{{ path('steps_edit', {'id': step.id}) }}">edit</a>
 
     {{ include('steps/_delete_form.html.twig') }}
         </div>
+    </div>
+
+<table class="table">
+    <div class="row second-row">
+        {% if costs|length >0%}
+        <ol>
+            {%endif%}
+            {% for cost in costs %}
+                <li>
+                    <div class="row cost-row">
+                        <div class="col-11 cost-info d-flex">
+                            <div class="cost-wrapper d-flex align-items-center">
+                                <i class='bx bxs-info-circle'></i>{{ cost.description }}
+                            </div>
+
+                            <div class="cost-wrapper d-flex align-items-center">
+                                <i class='bx bx-euro'></i>{{ cost.eur }}
+                            </div>
+
+                            <div class="cost-wrapper d-flex align-items-center">
+                                <i class='bx bx-dollar'></i>{{ cost.usd }}
+                            </div>
+
+                            <div class="cost-wrapper d-flex align-items-center">
+                                RON {{ cost.ron }}
+                            </div>
+                        </div>
+                        <div class="col-1 cost-actions d-flex align-items-center">
+                            {{ include('cost/_delete_form.html.twig') }}
+                            <a class='document-download' href="{{ path('cost_show', {'id': cost.id}) }}"><i class='bx bx-show bx-sm'></i></a>
+                            <a class='document-download' href="{{ path('cost_edit', {'id': cost.id}) }}"><i class='bx bx-edit-alt bx-sm'></i></a>
+                        </div>
+                    </div>
+                </li>
+            {% else %}
+                <h5>No costs found</h5>
+            {% endfor %}
+        </ol>
     </div>
 {% endblock %}

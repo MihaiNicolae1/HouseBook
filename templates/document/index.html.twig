@@ -12,9 +12,12 @@
                         <i class='bx bxs-file bx-lg'></i>
                     </button>
                 </div>
-                <div class="col-8 document-info">
+                <div class="col-2 document-info">
                     <a href="/" data-toggle="modal" data-target=".modal-{{document.id}}"  class="document-name" >{{document.name}}</a>
                     <div class="document-ext">{{document.name|split('.',2)[1]}}</div>
+                </div>
+                <div class="col-6">
+                    <div><i class="bx bx-home-alt"></i> {{document.projectid.name}}</div>
                 </div>
                 <div class="col-1">
                     <a class="document-download" href="{{ path('document_download', {'file': document.path}) }}"><i class='bx bx-down-arrow-circle  bx-md'></i></a>

@@ -49,11 +49,6 @@ class DocumentController extends AbstractController
         $project_slug = $request->get('slug');
         $step_slug = $request->get('step');
 
-        if ($step_slug != null){
-            $step = $stepsRepository->findOneBy(['slug' => $step_slug]);
-        } else {
-            $step = null;
-        }
         $project = $projectRepository->findOneBy(['slug' => $project_slug]);
 
         $document = new Document();
@@ -69,7 +64,11 @@ class DocumentController extends AbstractController
             $document->setAuthor($user); // setting the current user to be the author
 
             $document->setProjectId($project);
-            $document->setStep($step);
+            if ($step_slug != null){
+                $step = $stepsRepository->findOneBy(['slug' => $step_slug]);
+                $document->setStep($step);
+            }
+
 
             $file_location = $this->getParameter('projects_directory') . '/' . $project->getProjectDirectory();
 

@@ -47,6 +47,7 @@ class ChartController extends AbstractController
         $costs = $project->getCosts();
         $documents = $project->getDocuments();
         $costsYear = $documentYear = array();
+        $stepCost = ['No Step' => 0];
         $costsMonth = $documentMonth = [
             'January'=>0,
             'February'=>0,
@@ -64,6 +65,7 @@ class ChartController extends AbstractController
 
         foreach($costs as $cost){
             $year = date('Y',$cost->getCreatedAt()->getTimestamp());
+            empty($cost->getSteps()) ? $stepCost['No Step'] = 0 : $stepCost[$cost->getSteps()->getName()] = 0;
             $costsYear[$year] = 0;
         }
         foreach($documents as $document){
@@ -85,6 +87,10 @@ class ChartController extends AbstractController
                 $documentMonth[$month] += 1;
             $documentYear[$year] += 1;
         }
+
+        foreach($costs as $cost){
+            empty($cost->getSteps()) ? $stepCost['No Step'] += $cost->getEur() :  $stepCost[$cost->getSteps()] += $cost->getEur();
+        }
         return $this->render('chart/project.html.twig',[
             'months'=>array_keys($costsMonth),
             'monthCosts' => array_values($costsMonth),
@@ -94,6 +100,8 @@ class ChartController extends AbstractController
             'docmonthCosts' => array_values($documentMonth),
             'docyears' =>array_keys($documentYear),
             'docyearCosts' => array_values($documentYear),
+            'stepNames' =>array_keys($documentYear),
+            'stepCosts' => array_values($documentYear),
 
         ]);
 
