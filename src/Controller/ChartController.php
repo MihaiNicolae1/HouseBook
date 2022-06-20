@@ -100,8 +100,8 @@ class ChartController extends AbstractController
             'docmonthCosts' => array_values($documentMonth),
             'docyears' =>array_keys($documentYear),
             'docyearCosts' => array_values($documentYear),
-            'stepNames' =>array_keys($documentYear),
-            'stepCosts' => array_values($documentYear),
+            'stepNames' =>array_keys($stepCost),
+            'stepCosts' => array_values($stepCost),
 
         ]);
 
