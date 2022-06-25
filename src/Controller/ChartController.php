@@ -89,7 +89,7 @@ class ChartController extends AbstractController
         }
 
         foreach($costs as $cost){
-            empty($cost->getSteps()) ? $stepCost['No Step'] += $cost->getEur() :  $stepCost[$cost->getSteps()] += $cost->getEur();
+            empty($cost->getSteps()) ? $stepCost['No Step'] += $cost->getEur() :  $stepCost[$cost->getSteps()->getName()] += $cost->getEur();
         }
         return $this->render('chart/project.html.twig',[
             'months'=>array_keys($costsMonth),

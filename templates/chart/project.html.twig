@@ -9,6 +9,7 @@
             <select class='form-select' id="chart-choice">
                 <option value="costmonth">Costs this year by month</option>
                 <option value="costyear">Costs by year</option>
+                <option value="stepcost">Costs by step</option>
                 <option value="docmonth">Docs this year by month</option>
                 <option value="docyear">Docs by year</option>
             </select>
@@ -53,7 +54,7 @@
 
             const select = document.getElementById('chart-choice');
             const canvas = document.getElementById('cost-chart');
-            const context = document.getElementById("cost-chart").getContext('2d');
+
 
             const costChart = new Chart(
                 canvas,
@@ -83,6 +84,11 @@
                     costChart.data.datasets[0].label = 'Docs this year by month';
                     costChart.data.labels = {{docmonths|json_encode()|raw}};
                     costChart.config.options.plugins.title.text = 'Number of documents';
+                } else if (chartChoice.value ==='stepcost'){
+                    costChart.data.datasets[0].data = {{stepCosts|json_encode()|raw}};
+                    costChart.data.datasets[0].label = 'Costs in euro';
+                    costChart.data.labels = {{stepNames|json_encode()|raw}};
+                    costChart.config.options.plugins.title.text = 'Costs allocation by step';
                 }
 
                 costChart.update();

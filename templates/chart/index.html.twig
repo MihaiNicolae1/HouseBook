@@ -24,7 +24,11 @@
 <div class="row first-row chart-projects">
     <h3>Stats for each project</h3>
     {% for project in projects %}
-        <p> ~ {{project.name}}<a href="{{path('chart_project', {'project' : project.slug})}}"><i class="bx bx-bar-chart-alt-2 nav_icon"></i>See stats</a></p>
+        <li>{{project.name}}<a class="btn project_link" href="{{path('chart_project', {'project' : project.slug})}}"><i class="bx bx-bar-chart-alt-2 nav_icon"></i>See stats</a></li>
+    {% else %}
+        <tr>
+            <td colspan="5">No projects found</td>
+        </tr>
     {% endfor %}
 
 </div>

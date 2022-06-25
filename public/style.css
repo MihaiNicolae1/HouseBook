@@ -622,3 +622,22 @@ a {
     padding-top: 2em;
     padding-left: 2em;
 }
+.chart-projects{
+    padding-top: 2em;
+    padding-left: 2em;
+}
+
+.user-profile{
+    width:300px;
+    height:300px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.picture-row{
+    padding-top: 3em;
+}
+.user-row{
+    border-radius: 40px;
+    margin-top: 10em;
+    background-color: var(--first-color);
+}

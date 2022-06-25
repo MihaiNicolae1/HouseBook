@@ -162,8 +162,6 @@ class DocumentController extends AbstractController
 
             $project = $document->getProjectId();
             $project_directory = $project->getProjectDirectory();
-
-
             $fileDownload = $this->getParameter('projects_directory') . '/' . $project_directory . '/' . $filePath;
 
             // define header

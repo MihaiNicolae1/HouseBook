@@ -3,8 +3,9 @@
 {% block title %}HouseBook | Profile{% endblock %}
 
 {% block body %}
-<div class="d-flex justify-content-center">
-    <img class="img-fluid-3 img-thumbnail" src={{asset ('/uploads/profile_pictures/' ~ app.user.profilePicture) }}></img>
+    <div class="row d-flex user-row align-self-center">
+<div class="d-flex justify-content-center picture-row ">
+    <img class="user-profile" src={{asset ('/uploads/profile_pictures/' ~ app.user.profilePicture) }}></img>
 </div>
 
 <div class="d-flex justify-content-center">
@@ -14,4 +15,11 @@
 <div class="d-flex justify-content-center">
 <h3>Last Name: {{ app.user.lastName}}</h3>
 </div>
+    <div class="d-flex justify-content-center">
+        <h3>Email: {{app.user.email}}</h3>
+    </div>
+    <div class="d-flex justify-content-center">
+        <h3>Projects: {{ app.user.project|length}}</h3>
+    </div>
+    </div>
 {% endblock %}
