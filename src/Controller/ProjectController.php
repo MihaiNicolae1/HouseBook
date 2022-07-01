@@ -3,9 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Project;
-use App\Repository\UserRepository;
 use DateTime;
-use App\Entity\Stage;
 use App\Form\ProjectType;
 use App\Services\createSlug;
 use App\Services\addFile;
@@ -13,19 +11,12 @@ use App\Repository\ProjectRepository;
 use App\Repository\StageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Console\Event\ConsoleEvent;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 
 use function App\Services\createSlug;

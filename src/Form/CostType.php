@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Cost;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -15,7 +16,7 @@ class CostType extends AbstractType
     {
         $builder
             ->add('description')
-            ->add('value')
+            ->add('value', IntegerType::class)
             ->add('currencyChoice', ChoiceType::class, array(
                 'attr'  =>  array('class' => 'form-control',
                 'style' => 'margin:5px 0;'),
